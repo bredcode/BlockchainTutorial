@@ -13,9 +13,12 @@
           >
           </v-text-field>
           <v-btn v-if="!idValue" color="grey" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
-          <router-link v-else :to="'/MainPage'+'/'+idValue">
-            <v-btn color="pink" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
-          </router-link>
+          <div v-else id="router-box">
+            <router-link :to="'/MainPage'+'/'+idValue">
+              <v-btn color="pink" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
+            </router-link>
+          </div>
+
           <div id="error-box"> {{ err.msg }} </div>
         </v-container>
       </div>
@@ -123,5 +126,14 @@ export default {
 #error-box{
   margin-top:20px;
   text-align:center;
+}
+#router-box{
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.application a {
+  text-decoration: none;
 }
 </style>
