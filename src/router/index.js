@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import LoginPage from '@/components/LoginPage'
 import MainPage from '@/components/MainPage'
+import WalletPage from '@/components/WalletPage'
 import TransactionPage from '@/components/TransactionPage'
 import MiningPage from '@/components/MiningPage'
 import MempoolPage from '@/components/MempoolPage'
@@ -21,6 +22,12 @@ export default new Router({
       path: '/mainPage/:id',
       name: 'MainPage',
       component: MainPage,
+      props: true
+    },
+    {
+      path: '/WalletPage/:id',
+      name: 'WalletPage',
+      component: WalletPage,
       props: true
     },
     {

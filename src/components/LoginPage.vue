@@ -46,8 +46,7 @@ export default {
       if (this.idValue === '') {
         this.err.msg = "ID can't be empty."
         this.err.errorId = this.idValue
-      }
-      else {
+      } else {
         this.err.msg = ''
       }
     }
@@ -58,7 +57,7 @@ export default {
         this.err.msg = ''
       }
     }
-  },
+  }
 }
 </script>
 

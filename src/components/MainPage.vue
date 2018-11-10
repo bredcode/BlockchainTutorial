@@ -1,67 +1,67 @@
 <template>
-      <v-app id="test">
-        <v-container grid-list-md text-md-center fluid fill-height>
-          <v-layout column>
-            <v-flex md1 d-flex>
-              <v-card>
-                <div id="img">
-                  현재 접속한 id는 :: {{id}}
+  <v-app id="test">
+    <v-container grid-list-md text-md-center fluid fill-height>
+      <v-layout column>
+        <v-flex md1 d-flex>
+          <v-card>
+            <div id="title-box">
+              {{ title }} {{id}}
+            </div>
+          </v-card>
+        </v-flex>
+        <v-flex md11 d-flex>
+          <v-card>
+            <div id="router-box">
+              <router-link :to="'/WalletPage'+'/'+id">
+                <img src="../assets/image/wallet.png">
+                <div id="font20-bold">
+                  {{ wallet }}
                 </div>
-              </v-card>
-            </v-flex>
-            <v-flex md11 d-flex>
-              <v-card>
-                <div id="router-box">
-                  <router-link :to="'/WalletPage'+'/'+id">
-                    <img src="../assets/image/wallet.png">
-                    <div id="font20-bold">
-                      Create Wallet
-                    </div>
-                  </router-link>
+              </router-link>
+            </div>
+            <div id="line-space"></div>
+            <div id="router-box">
+              <router-link :to="'/MempoolPage'+'/'+id">
+                <img src="../assets/image/mempool.png" width="256px" height="256px">
+                <div id="font20-bold">
+                  {{ mempool }}
                 </div>
-                <div id="line-space"></div>
-                <div id="router-box">
-                  <router-link :to="'/MempoolPage'+'/'+id">
-                    <img src="../assets/image/mempool.png" width="256px" height="256px">
-                    <div id="font20-bold">
-                      See Mempool
-                    </div>
-                  </router-link>
+              </router-link>
+            </div>
+          </v-card>
+          <v-card>
+            <div id="router-box">
+              <router-link :to="'/TransactionPage'+'/'+id">
+                <img src="../assets/image/transaction.png">
+                <div id="font20-bold">
+                  {{ transaction }}
                 </div>
-              </v-card>
-              <v-card>
-                <div id="router-box">
-                  <router-link :to="'/TransactionPage'+'/'+id">
-                    <img src="../assets/image/transaction.png">
-                    <div id="font20-bold">
-                      Create Transaction
-                    </div>
-                  </router-link>
+              </router-link>
+            </div>
+            <div id="line-space"></div>
+            <div id="router-box">
+              <router-link :to="'/HistoryPage'+'/'+id">
+                <img src="../assets/image/history.png">
+                <div id="font20-bold">
+                  {{ history }}
                 </div>
-                <div id="line-space"></div>
-                <div id="router-box">
-                  <router-link :to="'/HistoryPage'+'/'+id">
-                    <img src="../assets/image/history.png">
-                    <div id="font20-bold">
-                      Transaction History
-                    </div>
-                  </router-link>
+              </router-link>
+            </div>
+          </v-card>
+          <v-card>
+            <div id="router-box">
+              <router-link :to="'/MiningPage'+'/'+id">
+                <img src="../assets/image/mining.png">
+                <div id="font20-bold">
+                  {{ mining }}
                 </div>
-              </v-card>
-              <v-card>
-                <div id="router-box">
-                  <router-link :to="'/MiningPage'+'/'+id">
-                    <img src="../assets/image/mining.png">
-                    <div id="font20-bold">
-                      Mining
-                    </div>
-                  </router-link>
-                </div>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-app>
+              </router-link>
+            </div>
+          </v-card>
+        </v-flex>
+      </v-layout>
+    </v-container>
+  </v-app>
 </template>
 
 <script>
@@ -70,6 +70,12 @@ export default {
   props: ['id'],
   data () {
     return {
+      title: 'Your current ID is : ',
+      wallet: 'Create Wallet',
+      transaction: 'Create Transaction',
+      mining: 'Mining',
+      mempool: 'See Mempool',
+      history: 'Transaction History'
     }
   }
 }
@@ -83,6 +89,11 @@ export default {
     justify-content: space-between;
     justify-content: center;
     height: 100vh;
+  }
+  #title-box{
+    font-size: 30px;
+    font-weight: bold;
+    margin-bottom: 20%;
   }
   #router-box{
     text-align: center;
