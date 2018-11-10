@@ -74,7 +74,7 @@ export default {
       wallet: 'Create Wallet',
       transaction: 'Create Transaction',
       mining: 'Mining',
-      mempool: 'See Mempool',
+      mempool: 'See Memory Pool',
       history: 'Transaction History'
     }
   }

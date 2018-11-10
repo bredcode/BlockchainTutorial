@@ -1,5 +1,6 @@
 <template>
   <v-app id="inspire">
+    <div id="line-space"></div>
     <v-layout row>
       <v-flex xs12 sm6 offset-sm3>
         <v-card>
@@ -99,6 +100,9 @@ export default {
     isRealValue (value) {
       var pattern = /^\d+(?:[.]\d+)?$/
       return pattern.test(value)
+    },
+    submit (){
+      console.log("submit!")
     }
   }
 }

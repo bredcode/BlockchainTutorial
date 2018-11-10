@@ -34,18 +34,18 @@
           </v-toolbar>
 
           <v-list two-line subheader>
-            <v-list-tile v-for="(wallet,idx) in wallets" :key="wallet.title" avatar>
+            <v-list-tile v-for="(wallet,idx) in wallets" :key="wallet.hash" avatar>
               <v-list-tile-avatar>
                 <v-icon :class="[wallet.iconClass]">{{ wallet.icon }}</v-icon>
               </v-list-tile-avatar>
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ wallet.title }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ wallet.subtitle }}</v-list-tile-sub-title>
+                <v-list-tile-title>{{ wallet.hash }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{ wallet.timeStamp }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
                 <v-btn icon>
-                  <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.title)" @click="copyWallet(wallet.title)">file_copy</v-icon>
+                  <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
                 </v-btn>
                 <v-btn icon>
                   <v-icon color="grey lighten-1" @click="deleteWallet(idx)">delete</v-icon>
@@ -89,7 +89,7 @@ export default {
         walletAddress += tmp[i]
       }
 
-      var ret = { icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', title: walletAddress, subtitle: nowUtc}
+      var ret = { icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: walletAddress, timeStamp: nowUtc}
       this.wallets.push(ret)
     },
     mouseoverEvent (value) {
