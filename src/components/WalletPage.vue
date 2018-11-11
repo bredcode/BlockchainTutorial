@@ -34,7 +34,7 @@
           </v-toolbar>
 
           <v-list two-line subheader>
-            <v-list-tile v-for="(wallet,idx) in wallets" :key="wallet.hash" avatar>
+            <v-list-tile v-for="wallet in wallets" :key="wallet['.key']" avatar>
               <v-list-tile-avatar>
                 <v-icon :class="[wallet.iconClass]">{{ wallet.icon }}</v-icon>
               </v-list-tile-avatar>
@@ -44,12 +44,12 @@
                 <v-list-tile-sub-title>{{ wallet.timeStamp }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
-                <v-btn icon>
-                  <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
-                </v-btn>
-                <v-btn icon>
-                  <v-icon color="grey lighten-1" @click="deleteWallet(idx)">delete</v-icon>
-                </v-btn>
+              <v-btn icon>
+                <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon color="grey lighten-1" @click="deleteWallet(wallet)">delete</v-icon>
+              </v-btn>
             </v-list-tile>
           </v-list>
         </v-card>
@@ -60,9 +60,14 @@
 
 <script>
 import SHA256 from '../js/function.js'
+import { db } from '../js/db.js'
+
 export default {
   name: 'app',
   props: ['id'],
+  beforeCreated(){
+
+  },
   data () {
     return {
       walletTitle: 'What is wallet in blockchain?',
@@ -73,9 +78,11 @@ export default {
         '비트코인 지갑은 특별 보호 파일(wallet.dat)로 이 파일의 암호는 이용자만 알 수 있습니다.',
         '키는 메모리 카드에 저장할 수 있으며 심지어 그냥 종이에 메모해도 좋습니다.',
         '이외에도 비트코인 저장을 위한 온라인 지갑을 제안하는 다양한 서비스가 운영되고 있습니다.'],
-      wallets: [],
       copyText: ''
     }
+  },
+  firebase: {
+    wallets: db.ref('wallets')
   },
   methods: {
     addWallet () {
@@ -90,7 +97,7 @@ export default {
       }
 
       var ret = { icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: walletAddress, timeStamp: nowUtc}
-      this.wallets.push(ret)
+      db.ref('wallets').push(ret)
     },
     mouseoverEvent (value) {
       this.copyText = value
@@ -100,8 +107,8 @@ export default {
       copyText.select()
       document.execCommand('copy')
     },
-    deleteWallet (index) {
-      this.wallets.splice(index, 1)
+    deleteWallet (wallet) {
+      db.ref('wallets').child(wallet['.key']).remove()
     }
   }
 }

@@ -4,7 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Vuetify from 'vuetify'
+import vueFire from 'vuefire'
 
+Vue.use(vueFire)
 Vue.use(Vuetify)
 
 Vue.config.productionTip = false
