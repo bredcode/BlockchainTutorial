@@ -65,9 +65,6 @@ import { db } from '../js/db.js'
 export default {
   name: 'app',
   props: ['id'],
-  beforeCreated(){
-
-  },
   data () {
     return {
       walletTitle: 'What is wallet in blockchain?',
@@ -81,8 +78,11 @@ export default {
       copyText: ''
     }
   },
-  firebase: {
-    wallets: db.ref('wallets')
+  firebase() {
+    const id = this.$props.id
+    return{
+      wallets: db.ref('wallets').child(id)
+    }
   },
   methods: {
     addWallet () {
@@ -97,7 +97,7 @@ export default {
       }
 
       var ret = { icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: walletAddress, timeStamp: nowUtc}
-      db.ref('wallets').push(ret)
+      db.ref('wallets').child(this.id).push(ret)
     },
     mouseoverEvent (value) {
       this.copyText = value
@@ -108,7 +108,7 @@ export default {
       document.execCommand('copy')
     },
     deleteWallet (wallet) {
-      db.ref('wallets').child(wallet['.key']).remove()
+      db.ref('wallets').child(this.id).child(wallet['.key']).remove()
     }
   }
 }
