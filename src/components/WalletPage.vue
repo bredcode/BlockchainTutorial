@@ -36,14 +36,18 @@
           <v-list two-line subheader>
             <v-list-tile v-for="wallet in wallets" :key="wallet['.key']" avatar>
               <v-list-tile-avatar>
-                <v-icon :class="[wallet.iconClass]">{{ wallet.icon }}</v-icon>
+                <v-icon :class="[effect.iconClass]">{{ effect.icon }}</v-icon>
               </v-list-tile-avatar>
 
               <v-list-tile-content>
-                <v-list-tile-title>{{ wallet.hash }}</v-list-tile-title>
+                <v-list-tile-title>
+                  {{ wallet.hash }}
+                </v-list-tile-title>
+
                 <v-list-tile-sub-title>{{ wallet.timeStamp }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
+              <v-icon color="grey lighten-1">attach_money</v-icon> {{ wallet.coin }} <div class="ml10"></div>
               <v-btn icon>
                 <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
               </v-btn>
@@ -75,12 +79,16 @@ export default {
         '비트코인 지갑은 특별 보호 파일(wallet.dat)로 이 파일의 암호는 이용자만 알 수 있습니다.',
         '키는 메모리 카드에 저장할 수 있으며 심지어 그냥 종이에 메모해도 좋습니다.',
         '이외에도 비트코인 저장을 위한 온라인 지갑을 제안하는 다양한 서비스가 운영되고 있습니다.'],
-      copyText: ''
+      copyText: '',
+      effect: {
+        icon: 'account_balance_wallet',
+        iconClass: 'orange  lighten-4 dark--text'
+      }
     }
   },
-  firebase() {
+  firebase () {
     const id = this.$props.id
-    return{
+    return {
       wallets: db.ref('wallets').child(id)
     }
   },
@@ -96,7 +104,7 @@ export default {
         walletAddress += tmp[i]
       }
 
-      var ret = { icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: walletAddress, timeStamp: nowUtc}
+      var ret = { coin: 100, hash: walletAddress, timeStamp: nowUtc }
       db.ref('wallets').child(this.id).push(ret)
     },
     mouseoverEvent (value) {
@@ -117,5 +125,8 @@ export default {
 <style scoped>
   #line-space{
     margin-top: 20px
+  }
+  .ml10{
+    margin-left:20px
   }
 </style>

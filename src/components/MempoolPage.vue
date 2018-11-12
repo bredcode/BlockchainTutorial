@@ -17,8 +17,6 @@
           </v-card-title>
         </v-card>
 
-        <div id="line-space"></div>
-
         <v-card>
           <div id="line-space"></div>
           <v-toolbar color="light-blue lighten-2" dark>
@@ -26,14 +24,12 @@
           </v-toolbar>
 
           <v-list two-line subheader>
-            <v-list-tile v-for="(tx,idx) in txList" :key="tx.hash" avatar>
-              <v-list-tile-avatar>
-                <v-icon :class="[tx.iconClass]">{{ tx.icon }}</v-icon>
-              </v-list-tile-avatar>
-
+            <v-list-tile v-for="tx in mempool" :key="tx['.key']" avatar  class="mt10 mb10">
               <v-list-tile-content>
-                <v-list-tile-title>{{ tx.hash }}</v-list-tile-title>
-                <v-list-tile-sub-title>{{ tx.timeStamp }}</v-list-tile-sub-title>
+                <v-list-tile-title>{{ from }} {{ tx.from }}</v-list-tile-title>
+                <v-list-tile-title>{{ to }} {{ tx.to }}</v-list-tile-title>
+                <v-list-tile-sub-title>{{ amount }} {{ tx.amount }}</v-list-tile-sub-title>
+                <div id="line"></div>
               </v-list-tile-content>
             </v-list-tile>
           </v-list>
@@ -44,11 +40,17 @@
 </template>
 
 <script>
+import SHA256 from '../js/function.js'
+import { db } from '../js/db.js'
+
 export default {
   name: 'app',
   props: ['id'],
   data () {
     return {
+      from: 'From : ',
+      to: 'To : ',
+      amount: 'Amount : ',
       mempoolTitle: 'What is memory pool in blockchain?',
       mempoolDescription: ['메모리 풀(멤풀)이란 네트워크 확인을 받기 위해 대기중인 모든 트랜잭션의 모음입니다.',
         '비트코인 트랜잭션이 네트워크에 브로드 캐스팅 될 때마다 첫 번째 확인을 받기까지 평균 10 분이 소요됩니다.',
@@ -60,12 +62,26 @@ export default {
         {icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: '1231231323', timeStamp: 2012106002}
       ]
     }
+  },
+  firebase () {
+    return {
+      mempool: db.ref('mempool')
+    }
   }
 }
 </script>
 
 <style scoped>
-  #line-space{
-    margin-top: 20px
-  }
+#line{
+  background-color:black;
+  height:1px;
+  width:100%;
+  margin-top: 5px;
+}
+.mt10{
+  margin-top: 10px;
+}
+.mb10{
+  margin-bottom: 10px;
+}
 </style>
