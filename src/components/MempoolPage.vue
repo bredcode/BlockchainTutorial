@@ -24,7 +24,7 @@
           </v-toolbar>
 
           <v-list two-line subheader>
-            <v-list-tile v-for="tx in mempool" :key="tx['.key']" avatar  class="mt10 mb10">
+            <v-list-tile v-for="tx in orderedTxs" :key="tx['.key']" avatar  class="mt10 mb10">
               <v-list-tile-content>
                 <v-list-tile-title>{{ from }} {{ tx.from }}</v-list-tile-title>
                 <v-list-tile-title>{{ to }} {{ tx.to }}</v-list-tile-title>
@@ -46,6 +46,13 @@ import { db } from '../js/db.js'
 export default {
   name: 'app',
   props: ['id'],
+  computed:{
+    orderedTxs : function(){
+      return _.orderBy(this.mempool, function(o){
+        return parseInt(o.amount)
+      }, 'desc');
+    }
+  },
   data () {
     return {
       from: 'From : ',
@@ -56,15 +63,11 @@ export default {
         '비트코인 트랜잭션이 네트워크에 브로드 캐스팅 될 때마다 첫 번째 확인을 받기까지 평균 10 분이 소요됩니다.',
         '그러나 특정 시간에 맴풀에 보류중인 트랜잭션의 수에 따라 10 분이상 길어질 수 있습니다.'],
       mempoolList: 'Memory Pool(Mempool) List',
-      txList: [
-        {icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: '1231231123', timeStamp: 2012106002},
-        {icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: '1231231223', timeStamp: 2012106002},
-        {icon: 'keyboard_arrow_right', iconClass: 'orange  lighten-2 white--text', hash: '1231231323', timeStamp: 2012106002}
-      ]
     }
   },
   firebase () {
     return {
+      // amount 기준으로 내림차순(수수료가 가장 높은 것 부터 멤풀에서 out)
       mempool: db.ref('mempool')
     }
   }

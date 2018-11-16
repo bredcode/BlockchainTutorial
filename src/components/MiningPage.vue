@@ -8,13 +8,22 @@
 </template>
 
 <script>
+import SHA256 from '../js/function.js'
+import { db } from '../js/db.js'
+
 export default {
   name: 'app',
   props: ['id'],
   data () {
     return {
     }
-  }
+  },
+  firebase () {
+    const id = this.$props.id
+    return {
+      wallets: db.ref('block').child(id)
+    }
+  },
 }
 </script>
 
