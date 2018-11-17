@@ -1,28 +1,27 @@
 <template>
   <v-app>
-      <div id="particles-js"></div>
-      <div id="wrapper">
-        <v-container fluid>
-          <h2 id="title-center"> {{ blockchainTutorial }} </h2>
-          <v-text-field
-            color="success darken"
-            label="ID"
-            loading
-            id = "input-id"
-            v-model = "idValue"
-            @keyup.enter="getLogin()"
-          >
-          </v-text-field>
-          <v-btn v-if="!idValue" color="grey" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
-          <div v-else id="router-box">
-            <router-link :to="'/MainPage'+'/'+idValue">
-              <v-btn color="pink" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
-            </router-link>
-          </div>
+    <div id="particles-js"></div>
+    <div id="wrapper">
+      <v-container fluid>
+        <h2 id="title-center"> {{ blockchainTutorial }} </h2>
+        <v-text-field
+          color="success darken"
+          label="ID"
+          loading
+          id = "input-id"
+          v-model = "idValue"
+          @keyup.enter="getLogin()"
+        >
+        </v-text-field>
+        <v-btn v-if="!idValue" color="grey" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
+        <div v-else id="router-box">
+          <router-link :to="'/MainPage'+'/'+idValue">
+            <v-btn color="pink" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
+          </router-link>
+        </div>
 
-          <div id="error-box"> {{ err.msg }} </div>
-        </v-container>
-      </div>
+        <div id="error-box"> {{ err.msg }} </div>
+      </v-container>
     </div>
   </v-app>
 </template>
@@ -32,8 +31,8 @@ import particlesConfig from '../js/particlesjs-config.json'
 
 export default {
   name: 'app',
-  mounted(){
-    particlesJS("particles-js", particlesConfig);
+  mounted () {
+    particlesJS("particles-js", particlesConfig)
   },
   data () {
     return {
@@ -143,13 +142,13 @@ export default {
   .application a {
     text-decoration: none;
   }
-	#particles-js {
-		position: absolute;
-		width: 100%;
-		height: 100%;
+  #particles-js {
+    position: absolute;
+    width: 100%;
+    height: 100%;
     background-color: #222;
-		background-repeat: no-repeat;
-		background-size: cover;
-		background-position: 50% 50%;
-	}
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: 50% 50%;
+  }
 </style>

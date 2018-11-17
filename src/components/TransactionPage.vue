@@ -21,7 +21,7 @@
         <div id="line-space"></div>
 
         <v-list two-line subheader>
-          <v-list-tile v-for="wallet in myWallets" :key="wallet['.key']" avatar>
+          <v-list-tile v-for="wallet in yourWallets" :key="wallet['.key']" avatar>
             <v-list-tile-avatar>
               <v-icon :class="[effect.iconClass]">{{ effect.icon }}</v-icon>
             </v-list-tile-avatar>
@@ -83,10 +83,7 @@
     <div v-if="success" class="text-xs-center">
       <v-dialog v-model="success" width="400">
         <v-card>
-          <v-card-title
-            class="headline grey lighten-2"
-            primary-title
-          >
+          <v-card-title class="headline grey lighten-2" primary-title>
             {{ successTransaction }}
           </v-card-title>
 
@@ -113,7 +110,6 @@
 </template>
 
 <script>
-import SHA256 from '../js/function.js'
 import { db } from '../js/db.js'
 
 export default {
@@ -157,7 +153,7 @@ export default {
   firebase () {
     const id = this.$props.id
     return {
-      myWallets: db.ref('wallets').child(id),
+      yourWallets: db.ref('wallets').child(id),
       mempool: db.ref('mempool')
     }
   },
@@ -173,10 +169,28 @@ export default {
       var pattern = /^\d+(?:[.]\d+)?$/
       return pattern.test(value)
     },
-    submit (coin) {
-      // TODO : DB 조회해서 코인이 입력값보다 많은지 확인
-      // if(coin <= this.amount){
-      // }
+    submit () {
+      // 본인 지갑 주소인지, 보내려는 값보다 크거나 같은지 확인
+      var isyourwallet = false
+      var isOverMoney = false
+      for (var i = 0; i < this.yourWallets.length; i++) {
+        if (this.yourWallets[i].hash === this.yourAddress) {
+          isyourwallet = true
+          if (this.yourWallets[i].coin >= this.amount) {
+            isOverMoney = true
+          }
+        }
+      }
+
+      if (!isyourwallet) {
+        alert('Please Write your wallet correctly')
+        return
+      }
+      if (!isOverMoney) {
+        alert('Please write less than you have.')
+        return
+      }
+
       var ret = { from: this.yourAddress, to: this.othersAddress, amount: this.amount }
       db.ref('mempool').push(ret)
       this.success = true
