@@ -74,16 +74,19 @@ export default {
 </script>
 
 <style scoped>
-#line{
-  background-color:black;
-  height:1px;
-  width:100%;
-  margin-top: 5px;
-}
-.mt10{
-  margin-top: 10px;
-}
-.mb10{
-  margin-bottom: 10px;
-}
+  #line{
+    background-color:black;
+    height:1px;
+    width:100%;
+    margin-top: 5px;
+  }
+  .mt10{
+    margin-top: 10px;
+  }
+  .mb10{
+    margin-bottom: 10px;
+  }
+  #line-space{
+    margin-top: 20px;
+  }
 </style>

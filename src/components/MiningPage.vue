@@ -47,7 +47,7 @@
 
       <!-- 클릭 시 나타나는 msg -->
       <div v-if="clickBlock" class="text-xs-center">
-        <v-dialog v-model="clickBlock" width="600">
+        <v-dialog v-model="clickBlock" width="750">
           <v-card>
             <v-card-title class="headline grey lighten-2" primary-title>
               {{ blockChainTitle }}
@@ -55,7 +55,15 @@
 
             <v-card-text>
               <div v-for="(info,key) in blockChainContent" id="line-space">
-                <div id="key-wrapper"> {{ key }}</div> <div>{{ info }}</div>
+                <div id="key-wrapper"> {{ key }}</div> 
+                <div v-if="key === 'txList'" >
+                  <div v-for="(tx, key) in info">
+                    from : {{ tx.from }} to : {{ tx.to }} amount : {{ tx.amount }}
+                  </div>
+                </div>
+                <div v-else>
+                  {{ info }}
+                </div>
               </div>
             </v-card-text>
 
@@ -132,7 +140,8 @@ export default {
     return {
       blockChain: db.ref('blockChain'),
       mempool: db.ref('mempool'),
-      wallets: db.ref('wallets')
+      wallets: db.ref('wallets'),
+      txHistory: db.ref('transactionHistory'),
     }
   },
   methods: {
@@ -217,6 +226,8 @@ export default {
           db.ref('wallets').child(fromId).child(fromWalletKey).update(fromWalletData)
           db.ref('wallets').child(toId).child(toWalletKey).update(toWalletData)
 
+          db.ref('transactionHistory').push({from: fromWalletData.hash, to: toWalletData.hash, amount: txAmount})
+
           this.block.txList.push({from: fromWalletData.hash, to: toWalletData.hash, amount: txAmount})
         } else {
           // 둘다 존재하지 않는다면 트랜잭션 삭제
@@ -258,7 +269,6 @@ export default {
         timeStamp: curBlock.timeStamp,
         txList: curBlock.txList
       }
-
     }
   }
 }
@@ -304,6 +314,7 @@ export default {
     display: flex;
     flex-direction: row;
     align-items: center;
+    margin-bottom: 15px;
   }
   #key-wrapper{
     font-weight: bold;
