@@ -65,9 +65,9 @@
 
             <v-card-text>
               <div v-for="(info,key) in blockChainContent" id="line-space">
-                <div id="key-wrapper"> {{ key }}</div> 
+                <div id="key-wrapper"> {{ key }}</div>
                 <div v-if="key === 'txList'" >
-                  <div v-for="(tx, key) in info">
+                  <div v-for="tx in info">
                     from : {{ tx.from }} to : {{ tx.to }} amount : {{ tx.amount }}
                   </div>
                 </div>
@@ -96,7 +96,6 @@
 </template>
 
 <script>
-import SHA256 from '../js/function.js'
 import { db } from '../js/db.js'
 
 export default {
@@ -109,7 +108,7 @@ export default {
         '모든 거래 내역을 공개하고 모든 사용자가 거래 내역을 가지고 있으면 거래 내역을 조작할 수 없습니다.',
         '블록체인에서는 거래 정보를 감추지 않고 모두에게 공개하고, 누구나 거래 정보를 생성할 수 있으며, 거래 정보를 모두에게 복사해서 사본을 저장하고 그 사본끼리 동기화시킵니다.',
         '즉, 2중화, 3중화 정도가 아니라 수천중화, 수만중화 처리를 해서 기록이 사라지는 일을 원천적으로 막아버립니다.',
-        '그래서 블록체인을 거대한 분산 공개 장부라고 부르기도 합니다.','　','아래에서는 모든 거래 내역 및 거래 내역이 담긴 블록체인을 보여줍니다.'],
+        '그래서 블록체인을 거대한 분산 공개 장부라고 부르기도 합니다.', '　', '아래에서는 모든 거래 내역 및 거래 내역이 담긴 블록체인을 보여줍니다.'],
       txHistoryToolbar: 'Transaction History',
       from: 'From : ',
       to: 'To : ',
@@ -126,7 +125,7 @@ export default {
     const id = this.$props.id
     return {
       txHistory: db.ref('transactionHistory'),
-      blockChain: db.ref('blockChain'),
+      blockChain: db.ref('blockChain')
     }
   },
   methods: {
