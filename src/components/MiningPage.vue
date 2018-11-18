@@ -20,6 +20,17 @@
 
       <v-btn color="success" v-if="!miningNow" @click="goMining()">Go Mining</v-btn>
       <v-btn color="error" v-if="miningNow" @click="stopMining()">Stop Mining</v-btn>
+      <div id="block-wrapper">
+        <div id="block-float-left" v-for="(block, idx) in blockChain" :key="block['.key']">
+          <div id="blockChain-center" v-if="idx === 0">
+            <img id="block" src="http://cfile30.uf.tistory.com/image/99B3D4355BF0EECC0C0813" @click="showBlockInfo(block)">
+          </div>
+          <div id="blockChain-center" v-else>
+            <img src="http://cfile10.uf.tistory.com/image/99F677465BF100B12B42E3">
+            <img id="block" src="http://cfile30.uf.tistory.com/image/99B3D4355BF0EECC0C0813" @click="showBlockInfo(block)">
+          </div>
+        </div>
+      </div>
 
       <v-btn color="success" v-if="!txListOn" @click="openTx()">Open Mempool</v-btn>
       <v-btn color="error" v-if="txListOn" @click="closeTx()">Close Mempool</v-btn>
@@ -33,6 +44,36 @@
           </v-list-tile-content>
         </v-list-tile>
       </v-list>
+
+      <!-- 클릭 시 나타나는 msg -->
+      <div v-if="clickBlock" class="text-xs-center">
+        <v-dialog v-model="clickBlock" width="600">
+          <v-card>
+            <v-card-title class="headline grey lighten-2" primary-title>
+              {{ blockChainTitle }}
+            </v-card-title>
+
+            <v-card-text>
+              <div v-for="(info,key) in blockChainContent" id="line-space">
+                <div id="key-wrapper"> {{ key }}</div> <div>{{ info }}</div>
+              </div>
+            </v-card-text>
+
+            <v-divider></v-divider>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+                color="primary"
+                flat
+                @click="clickBlock = false"
+              >
+                {{ ok }}
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </div>
   </v-app>
   <!--
   <div>
@@ -76,8 +117,13 @@ export default {
         prevHash: '',
         curHash: '',
         blockNumber: '',
+        timeStamp: '',
         txList: [{from: '', to: '', amount: ''}]
-      }
+      },
+      clickBlock: false,
+      blockChainTitle: 'Block details',
+      blockChainContent: '',
+      ok: 'OK'
     }
   },
   firebase () {
@@ -106,6 +152,7 @@ export default {
     },
     mining () {
       var now = new Date()
+      var nowUtc = new Date(now.getTime() + (now.getTimezoneOffset() * 60000)).toString()
       var hash = now.toString() + Math.random()
 
       this.block = this.resetBlock()
@@ -169,6 +216,8 @@ export default {
           db.ref('mempool').child(this.orderedTxs[0]['.key']).remove()
           db.ref('wallets').child(fromId).child(fromWalletKey).update(fromWalletData)
           db.ref('wallets').child(toId).child(toWalletKey).update(toWalletData)
+
+          this.block.txList.push({from: fromWalletData.hash, to: toWalletData.hash, amount: txAmount})
         } else {
           // 둘다 존재하지 않는다면 트랜잭션 삭제
           console.log('Trash Transaction')
@@ -177,13 +226,13 @@ export default {
         hash += (txFrom + txTo)
       }
 
+      // Genesis Block or not
       this.block.blockNumber = this.blockChain.length + 1
-      // this.block.prevHash = this.blockChain[this.block.blockNumber - 1].curHash
-      this.block.prevHash = 'hello world'
-      this.block.curHash = SHA256(hash)
-
-      console.log('===hash :: ', SHA256(hash))
-      console.log(this.block)
+      this.block.prevHash = (this.block.blockNumber === 1 ? 0 : this.blockChain[this.blockChain.length - 1].curHash)
+      this.block.curHash = SHA256(hash + this.prevHash)
+      this.block.timeStamp = nowUtc
+      db.ref('blockChain').push(this.block)
+      console.log('Make a new block : ', this.block)
     },
     openTx () {
       this.txListOn = true
@@ -196,8 +245,20 @@ export default {
         prevHash: '',
         curHash: '',
         blockNumber: '',
+        timeStamp: '',
         txList: [] // {from: '', to: '', amount: ''}
       }
+    },
+    showBlockInfo (curBlock) {
+      this.clickBlock = true
+      this.blockChainContent = {
+        blockNumber: curBlock.blockNumber,
+        prevHash: curBlock.prevHash,
+        curHash: curBlock.curHash,
+        timeStamp: curBlock.timeStamp,
+        txList: curBlock.txList
+      }
+
     }
   }
 }
@@ -211,10 +272,10 @@ export default {
     pointer-events: none;
   }
   #line-space{
-    margin-top: 20px
+    margin-top: 20px;
   }
   .ml10{
-    margin-left:20px
+    margin-left:20px;
   }
   #btn-wrapper{
     width:500px;
@@ -227,5 +288,24 @@ export default {
     height:1px;
     width: 35%;
     margin: auto;
+  }
+  #block-wrapper{
+    flex: row;
+    margin: 20px 0 20px 20px;
+  }
+  #block{
+    width: min-content;
+    cursor: pointer;
+  }
+  #block-float-left{
+    float: left;
+  }
+  #blockChain-center{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  #key-wrapper{
+    font-weight: bold;
   }
 </style>
