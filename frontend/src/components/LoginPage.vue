@@ -4,15 +4,19 @@
     <div id="wrapper">
       <v-container fluid>
         <h2 id="title-center"> {{ blockchainTutorial }} </h2>
-        <v-text-field
-          color="success darken"
-          label="ID"
-          loading
-          id = "input-id"
-          v-model = "idValue"
-          @keyup.enter="getLogin()"
-        >
-        </v-text-field>
+        <div class="width50">
+          <v-text-field
+            color="success darken"
+            loading
+            id = "input-id"
+            placeholder="Input your ID"
+            onfocus="this.placeholder = ''"
+            onblur="this.placeholder = 'Input your ID'"
+            v-model = "idValue"
+            @keyup.enter="getLogin()"
+          >
+          </v-text-field>
+        </div>
         <v-btn v-if="!idValue" color="grey" dark @click="getLogin()" id="login-btn">{{ login }}</v-btn>
         <div v-else id="router-box">
           <router-link :to="'/MainPage'+'/'+idValue">
@@ -67,25 +71,7 @@ export default {
 </script>
 
 <style>
-  #bg{
-    width:100%;
-    height:100%;
-    background-color:#202E47;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-  }
-
-  .application .theme--light.v-label, .theme--light .v-label {
-      color: white;
-      font-size:25px;
-  }
-
-  .application .theme--light.v-input:not(.v-input--is-disabled) input, .application .theme--light.v-input:not(.v-input--is-disabled) textarea, .theme--light .v-input:not(.v-input--is-disabled) input, .theme--light .v-input:not(.v-input--is-disabled) textarea {
-      color: white;
-  }
-  .v-input {
+  .width50{
     align-items: flex-start;
     display: flex;
     flex: 1 1 auto;
@@ -96,6 +82,16 @@ export default {
     margin-right: auto;
     text-align: left;
   }
+  #bg{
+    width:100%;
+    height:100%;
+    background-color:#202E47;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+  }
+
   #wrapper {
     display: flex;
     flex-direction: row;
@@ -119,6 +115,8 @@ export default {
     width:50px;
     font-size:20px;
     margin-top:10px;
+    color: white;
+    text-align: center;
   }
   #login-btn{
     display: block;
@@ -150,5 +148,20 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: 50% 50%;
+  }
+  ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: white !important;
+    opacity: 1; /* Firefox */
+    text-align: center;
+  }
+
+  :-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: white !important;
+    text-align: center;
+  }
+
+  ::-ms-input-placeholder { /* Microsoft Edge */
+    color: white !important;
+    text-align: center;
   }
 </style>

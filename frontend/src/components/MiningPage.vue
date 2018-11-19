@@ -56,12 +56,12 @@
             <v-card-text>
               <div v-for="(info,key) in blockChainContent" id="line-space">
                 <div id="key-wrapper"> {{ key }}</div> 
-                <div v-if="key === 'txList'" >
-                  <div v-for="(tx, key) in info">
-                    from : {{ tx.from }} to : {{ tx.to }} amount : {{ tx.amount }}
+                <div v-if="key === 'txList'">
+                  <div v-for="(tx, key) in info" id="mb10">
+                    from : {{ tx.from }} <br> to : {{ tx.to }} <br> amount : {{ tx.amount }}
                   </div>
                 </div>
-                <div v-else>
+                <div v-else id="word-break">
                   {{ info }}
                 </div>
               </div>
@@ -318,5 +318,11 @@ export default {
   }
   #key-wrapper{
     font-weight: bold;
+  }
+  #word-break{
+    word-break: break-all;
+  }
+  #mb10{
+    margin-bottom: 10px
   }
 </style>
