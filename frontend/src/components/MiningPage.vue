@@ -70,7 +70,7 @@
               <div v-for="(info,key) in blockChainContent" :key="key" id="line-space">
                 <div id="key-wrapper"> {{ key }} </div>
                 <div v-if="key === 'txList'">
-                  <div v-for="tx in info" :key="tx.from" id="mb10">
+                  <div v-for="tx in info" :key="(Math.random() + tx.amount)" id="mb10">
                     from : {{ tx.from }} <br> to : {{ tx.to }} <br> amount : {{ tx.amount }}
                   </div>
                 </div>
