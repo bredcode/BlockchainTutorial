@@ -13,7 +13,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ transactionTitle }}</h3>
-              <div v-for="i in transactionDescription">{{ i }}</div>
+              <div v-for="i in transactionDescription" :key="i">{{ i }}</div>
             </div>
           </v-card-title>
         </v-card>
@@ -173,7 +173,7 @@ export default {
       // 본인 지갑 주소인지, 보내려는 값보다 크거나 같은지 확인
       var isyourwallet = false
       var isOverMoney = false
-      for (var i = 0; i < this.yourWallets.length; i++) {
+      for (let i = 0; i < this.yourWallets.length; i++) {
         if (this.yourWallets[i].hash === this.yourAddress) {
           isyourwallet = true
           if (this.yourWallets[i].coin >= this.amount) {

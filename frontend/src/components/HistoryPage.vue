@@ -11,7 +11,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ txHistoryTitle }}</h3>
-              <div v-for="i in txHistoryDescription">{{ i }}</div>
+              <div v-for="i in txHistoryDescription" :key="i">{{ i }}</div>
             </div>
           </v-card-title>
         </v-card>
@@ -28,7 +28,7 @@
             </v-toolbar>
             <div id="line-space"></div>
             <v-list two-line subheader>
-              <v-list-tile v-for="tx in txHistory" avatar>
+              <v-list-tile v-for="tx in txHistory" :key="tx" avatar>
                 <v-list-tile-content>
                   <v-list-tile-title>{{ from }} {{ tx.from }}</v-list-tile-title>
                   <v-list-tile-title>{{ to }} {{ tx.to }}</v-list-tile-title>
@@ -64,14 +64,14 @@
             </v-card-title>
 
             <v-card-text>
-              <div v-for="(info,key) in blockChainContent" id="line-space">
+              <div v-for="(info,key) in blockChainContent" :key="info" id="line-space">
                 <div id="key-wrapper"> {{ key }}</div>
                 <div v-if="key === 'txList'" >
-                  <div v-for="tx in info">
-                    from : {{ tx.from }} to : {{ tx.to }} amount : {{ tx.amount }}
+                  <div v-for="tx in info" :key="tx" id="mb10">
+                    from : {{ tx.from }} <br> to : {{ tx.to }} <br>  amount : {{ tx.amount }}
                   </div>
                 </div>
-                <div v-else>
+                <div v-else id="word-break">
                   {{ info }}
                 </div>
               </div>
@@ -122,7 +122,6 @@ export default {
     }
   },
   firebase () {
-    const id = this.$props.id
     return {
       txHistory: db.ref('transactionHistory'),
       blockChain: db.ref('blockChain')
@@ -160,7 +159,7 @@ export default {
     margin-top: 20px
   }
   .ml10{
-    margin-left:20px
+    margin-left: 20px
   }
   #line{
     background-color:black;
@@ -184,5 +183,11 @@ export default {
     flex-direction: row;
     align-items: center;
     margin-bottom: 15px;
+  }
+  #word-break{
+    word-break: break-all;
+  }
+  #mb10{
+    margin-bottom: 10px
   }
 </style>

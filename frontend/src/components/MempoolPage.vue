@@ -12,7 +12,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ mempoolTitle }}</h3>
-              <div v-for="i in mempoolDescription">{{ i }}</div>
+              <div v-for="i in mempoolDescription" :key="i">{{ i }}</div>
             </div>
           </v-card-title>
         </v-card>

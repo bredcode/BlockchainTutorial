@@ -13,7 +13,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ walletTitle }}</h3>
-              <div v-for="i in walletDescription">{{ i }}</div>
+              <div v-for="i in walletDescription" :key="i">{{ i }}</div>
             </div>
           </v-card-title>
         </v-card>
@@ -100,7 +100,8 @@ export default {
       tmp = SHA256(tmp)
       var walletAddress = ''
       // 주소길이 34로 축소
-      for (var i = 0; i < 34; i++) {
+      walletAddress += '2'
+      for (let i = 0; i < 33; i++) {
         walletAddress += tmp[i]
       }
 
