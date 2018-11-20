@@ -56,18 +56,44 @@
                   {{ mining }}
                 </div>
               </router-link>
+              <div id="line-space"></div>
+              <div id="router-box">
+                <div id="db-box" @click="resetDB()">
+                  <img src="../assets/image/db-reset.png" width="256px" height="256px">
+                  <div id="font20-bold">
+                    {{ dbReset }}
+                  </div>
+                </div>
+              </div>
             </div>
           </v-card>
         </v-flex>
       </v-layout>
     </v-container>
+    <!-- db 초기화버튼 누르면 나타나는 문구 -->
+    <v-dialog v-model="dbDialog" max-width="290">
+      <div id="bg-white">
+        <v-card>
+          <v-card-title class="headline"> {{ dbTitle }} </v-card-title>
+          <v-card-text> {{ dbContent }} </v-card-text>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="red darken-2" flat @click="clickAgree()">{{ agree }} </v-btn>
+            <v-btn color="red darken-1" flat @click="dbDialog = false">{{ disAgree }}</v-btn>
+          </v-card-actions>
+        </v-card>
+      </div>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
+import { db } from '../js/db.js'
+
 export default {
   name: 'app',
   props: ['id'],
+
   data () {
     return {
       title: 'Your current ID is : ',
@@ -75,7 +101,35 @@ export default {
       transaction: 'Create Transaction',
       mining: 'Mining',
       mempool: 'See Memory Pool',
-      history: 'Transaction History'
+      history: 'Transaction History',
+      dbReset: 'Reset Blockchain',
+      dbDialog: false,
+      dbTitle: 'Reset Blockchain',
+      dbContent: 'Are you sure you want to clear all Blockchain contents?',
+      agree: 'Yes',
+      disAgree: 'No'
+    }
+  },
+  firebase () {
+    return {
+    }
+  },
+  methods: {
+    resetDB () {
+      this.dbDialog = true
+    },
+    clickAgree () {
+      db.ref('mempool').remove()
+      db.ref('wallets').remove()
+      db.ref('blockChain').remove()
+      db.ref('transactionHistory').remove()
+      db.ref('miningData').remove()
+      var info = {
+        target: 3,
+        blockNumber: 0
+      }
+      db.ref('miningData').push(info)
+      this.dbDialog = false
     }
   }
 }
@@ -135,5 +189,14 @@ export default {
   }
   a:hover{
     color:tomato;
+  }
+  #db-box{
+    cursor: pointer;
+  }
+  #db-box:hover{
+    color: tomato;
+  }
+  #bg-white{
+    background-color: white !important;
   }
 </style>

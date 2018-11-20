@@ -11,7 +11,7 @@
           <v-card-title primary-title>
             <div>
               <h3 class="headline mb-0">{{ miningTitle }}</h3>
-              <div v-for="i in miningDescription">{{ i }}</div>
+              <div v-for="i in miningDescription" :key="i">{{ i }}</div>
             </div>
           </v-card-title>
         </v-card>
@@ -20,6 +20,19 @@
 
       <v-btn color="success" v-if="!miningNow" @click="goMining()">Go Mining</v-btn>
       <v-btn color="error" v-if="miningNow" @click="stopMining()">Stop Mining</v-btn>
+      <div v-if="miningNow" id="current-info">
+        <p> {{currentTarget}} </p>
+        <p> {{currentBlockNumber}} </p>
+        <p> {{ currentNonce }} </p>
+        <p> {{ currentHash }} </p>
+        <div id="hashpower-box">
+          <span class="group pa-2">
+            <v-icon x-large color="red" @click="hashrateUp()">trending_up</v-icon>
+            {{ controlHashPower }}
+            <v-icon x-large color="red" @click="hashrateDown()">trending_down</v-icon>
+          </span>
+        </div>
+      </div>
       <div id="block-wrapper">
         <div id="block-float-left" v-for="(block, idx) in blockChain" :key="block['.key']">
           <div id="blockChain-center" v-if="idx === 0">
@@ -54,10 +67,10 @@
             </v-card-title>
 
             <v-card-text>
-              <div v-for="(info,key) in blockChainContent" id="line-space">
-                <div id="key-wrapper"> {{ key }}</div> 
+              <div v-for="(info,key) in blockChainContent" :key="key" id="line-space">
+                <div id="key-wrapper"> {{ key }} </div>
                 <div v-if="key === 'txList'">
-                  <div v-for="(tx, key) in info" id="mb10">
+                  <div v-for="tx in info" :key="tx.from" id="mb10">
                     from : {{ tx.from }} <br> to : {{ tx.to }} <br> amount : {{ tx.amount }}
                   </div>
                 </div>
@@ -82,15 +95,37 @@
           </v-card>
         </v-dialog>
       </div>
+
+      <!-- 채굴 성공시 나타나는 msg -->
+      <v-snackbar
+        v-model="miningSuccess"
+        :bottom="y === 'bottom'"
+        :left="x === 'left'"
+        :right="x === 'right'"
+        :timeout="timeout"
+        :top="y === 'top'"
+        :vertical="mode === true"
+        :auto-height="true"
+      >
+        Mining Success<br>
+        Hash : {{ realHash }}<br>
+        nonce : {{ finalNonce }}
+      </v-snackbar>
+      <!-- 채굴 실패시 나타나는 msg -->
+      <v-snackbar
+        v-model="miningFail"
+        :bottom="y === 'bottom'"
+        :left="x === 'left'"
+        :right="x === 'right'"
+        :timeout="timeout"
+        :top="y === 'top'"
+        :vertical="mode === true"
+        :auto-height="true"
+      >
+        Mining Fail<br>
+        {{ failMsg }}
+      </v-snackbar>
   </v-app>
-  <!--
-  <div>
-    <img src="https://www.performancepsu.com/wp-content/uploads/2018/01/bitcoin-mining-1024x683.jpg">
-    <video controls muted autoplay loop>
-      <source src="../assets/movie/mining.mp4" type="video/mp4">
-    </video>
-  </div>
-  -->
 </template>
 
 <script>
@@ -107,6 +142,9 @@ export default {
       }, 'desc')
     }
   },
+  mounted () {
+    this.controlHashPower = '현재 해시파워 : ' + parseInt(1000 - this.hashRate)
+  },
   data () {
     return {
       miningTitle: 'What is mining in blockchain?',
@@ -120,7 +158,6 @@ export default {
       amount: 'Amount : ',
       txListOn: false,
       miningInterval: '',
-      randVal: 0,
       block: {
         prevHash: '',
         curHash: '',
@@ -131,7 +168,24 @@ export default {
       clickBlock: false,
       blockChainTitle: 'Block details',
       blockChainContent: '',
-      ok: 'OK'
+      ok: 'OK',
+      currentTarget: '',
+      currentBlockNumber: '',
+      nonce: 0,
+      finalNonce: 0,
+      currentNonce: '',
+      currentHash: '',
+      miningSuccess: false,
+      miningFail: false,
+      realHash: '',
+      hashRate: 50,
+      controlHashPower: '',
+      // snackbar variable
+      y: 'top',
+      x: null,
+      mode: '',
+      timeout: 5000,
+      failMsg: 'One of other node mined first'
     }
   },
   firebase () {
@@ -142,18 +196,72 @@ export default {
       mempool: db.ref('mempool'),
       wallets: db.ref('wallets'),
       txHistory: db.ref('transactionHistory'),
+      miningData: db.ref('miningData')
     }
   },
   methods: {
     goMining () {
       this.miningNow = true
-      this.randVal = 5
+      var now = new Date()
+      var hash = SHA256(now.toString() + Math.random())
+      var blockChainLength = this.miningData.length - 1
+      var blockChainNumber = this.miningData[blockChainLength].blockNumber
+      this.currentTarget = '이번 난이도는 앞에서 "0"이 ' + this.miningData[blockChainLength].target + '개 이상인 Hash를 찾아야합니다'
+      this.currentBlockNumber = '현재 채굴중인 BlockNumber : ' + parseInt(this.miningData[blockChainLength].blockNumber + 1)
+
       this.miningInterval = setInterval(() => {
-        this.randVal = Math.floor(Math.random() * 5) + 5
-        this.mining()
-        // console.log ("rand: ", this.randVal)
-        // TODO : Setinterval에서 시간 랜덤하게 되도록 하기(현재 5초)
-      }, this.randVal * 1000)
+        this.currentNonce = '현재 Nonce : ' + this.nonce
+        this.currentHash = '현재 Hash : ' + hash
+        var target = this.miningData[blockChainLength].target
+
+        hash = SHA256(hash + this.nonce)
+        var cnt = 0
+        for (let i = 0; i < target; i++) {
+          if (hash[i] === '0') {
+            cnt++
+          }
+        }
+        /*
+          타겟을 맞추면 alert 띄어주고 정보 출력 후
+          mining function에서 결과를 블록에 저장하고
+          최종적으로 goMining을 다시 실행시켜준다.
+        */
+        if (cnt === target) {
+          clearInterval(this.miningInterval)
+          // 마이닝후 다른쪽에서 더 긴 체인을 가지면 동기화시킨다.
+          if (parseInt(this.miningData[this.miningData.length - 1].blockNumber + 1) > parseInt(blockChainNumber + 1)) {
+            this.miningFail = true
+            this.nonce = 0
+            this.goMining()
+            return
+          }
+
+          this.miningSuccess = true
+          this.finalNonce = this.nonce
+          this.nonce = 0
+
+          this.mining()
+          if (parseInt(this.finalNonce) <= 3000) {
+            let info = {
+              target: 3,
+              blockNumber: this.miningData[blockChainLength].blockNumber + 1
+            }
+            db.ref('miningData').push(info)
+          } else {
+            let info = {
+              target: 2,
+              blockNumber: this.miningData[blockChainLength].blockNumber + 1
+            }
+            db.ref('miningData').push(info)
+          }
+          this.goMining()
+        } else {
+          this.nonce++
+          clearInterval(this.miningInterval)
+          this.goMining()
+          // return 현재는 코드 마지막줄이기에 불필요, 하지만 추후 사용될 수 있음
+        }
+      }, parseInt(this.hashRate))
     },
     stopMining () {
       this.miningNow = false
@@ -163,6 +271,7 @@ export default {
       var now = new Date()
       var nowUtc = new Date(now.getTime() + (now.getTimezoneOffset() * 60000)).toString()
       var hash = now.toString() + Math.random()
+      var merkleRoot = ''
 
       this.block = this.resetBlock()
       var len = Math.min(this.orderedTxs.length, 5)
@@ -173,13 +282,18 @@ export default {
         var txTo = this.orderedTxs[0].to
         var txAmount = this.orderedTxs[0].amount
 
-        var fromWalletKey = '', toWalletKey = ''
-        var fromWalletData = '', toWalletData = ''
-        var fromId = '', toId = ''
+        var fromWalletKey = ''
+        var toWalletKey = ''
+        var fromWalletData = ''
+        var toWalletData = ''
+        var fromId = ''
+        var toId = ''
 
-        var isFromValid = false, isToValid = false
+        var isFromValid = false
+        var isToValid = false
 
-        var walletKey = '', curCoin = ''
+        var walletKey = ''
+        var curCoin = ''
 
         // 더블스펜딩 방지
         for (var j = 0; j < this.wallets.length; j++) {
@@ -218,10 +332,10 @@ export default {
 
         // 보내는이 받는이가 둘다 유효할 때
         if (isFromValid && isToValid) {
-          console.log('key :: ', this.orderedTxs[0]['.key'])
-          console.log('fromID :: ', fromId, ' toId :: ', toId)
-          console.log('isFromValid : ', isFromValid, ' isToValid : ', isToValid)
-          console.log('fromWalletData : ', fromWalletData, ' toWalletData :: ', toWalletData)
+          // console.log('key :: ', this.orderedTxs[0]['.key'])
+          // console.log('fromID :: ', fromId, ' toId :: ', toId)
+          // console.log('isFromValid : ', isFromValid, ' isToValid : ', isToValid)
+          // console.log('fromWalletData : ', fromWalletData, ' toWalletData :: ', toWalletData)
           db.ref('mempool').child(this.orderedTxs[0]['.key']).remove()
           db.ref('wallets').child(fromId).child(fromWalletKey).update(fromWalletData)
           db.ref('wallets').child(toId).child(toWalletKey).update(toWalletData)
@@ -231,19 +345,23 @@ export default {
           this.block.txList.push({from: fromWalletData.hash, to: toWalletData.hash, amount: txAmount})
         } else {
           // 둘다 존재하지 않는다면 트랜잭션 삭제
-          console.log('Trash Transaction')
           db.ref('mempool').child(this.orderedTxs[0]['.key']).remove()
         }
-        hash += (txFrom + txTo)
+        merkleRoot += (txFrom + txTo)
       }
 
       // Genesis Block or not
       this.block.blockNumber = this.blockChain.length + 1
       this.block.prevHash = (this.block.blockNumber === 1 ? 0 : this.blockChain[this.blockChain.length - 1].curHash)
-      this.block.curHash = SHA256(hash + this.prevHash)
+      this.realHash = ''
+      for (let i = 0; i < this.miningData[this.miningData.length - 1].target; i++) {
+        this.realHash += '0'
+      }
+      this.realHash += SHA256(merkleRoot + hash + this.prevHash)
+      this.realHash = this.realHash.substring(0, this.realHash.length - 3)
+      this.block.curHash = this.realHash
       this.block.timeStamp = nowUtc
       db.ref('blockChain').push(this.block)
-      console.log('Make a new block : ', this.block)
     },
     openTx () {
       this.txListOn = true
@@ -269,6 +387,16 @@ export default {
         timeStamp: curBlock.timeStamp,
         txList: curBlock.txList
       }
+    },
+    hashrateUp () {
+      // 최소 10
+      this.controlHashPower = '현재 해시파워 : ' + parseInt(1000 - this.hashRate)
+      this.hashRate = Math.max(10, this.hashRate - 10)
+    },
+    hashrateDown () {
+      // 최대 1000
+      this.controlHashPower = '현재 해시파워 : ' + parseInt(1000 - this.hashRate)
+      this.hashRate = Math.min(1000, this.hashRate + 10)
     }
   }
 }
@@ -324,5 +452,18 @@ export default {
   }
   #mb10{
     margin-bottom: 10px
+  }
+  #current-info{
+    text-align: center;
+  }
+  #hashpower-box{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-select: none;
   }
 </style>
