@@ -354,11 +354,12 @@ export default {
       this.block.blockNumber = this.blockChain.length + 1
       this.block.prevHash = (this.block.blockNumber === 1 ? 0 : this.blockChain[this.blockChain.length - 1].curHash)
       this.realHash = ''
-      for (let i = 0; i < this.miningData[this.miningData.length - 1].target; i++) {
+      var len = this.miningData[this.miningData.length - 1].target
+      for (let i = 0; i < len; i++) {
         this.realHash += '0'
       }
       this.realHash += SHA256(merkleRoot + hash + this.prevHash)
-      this.realHash = this.realHash.substring(0, this.realHash.length - 3)
+      this.realHash = this.realHash.substring(0, this.realHash.length - len)
       this.block.curHash = this.realHash
       this.block.timeStamp = nowUtc
       db.ref('blockChain').push(this.block)
