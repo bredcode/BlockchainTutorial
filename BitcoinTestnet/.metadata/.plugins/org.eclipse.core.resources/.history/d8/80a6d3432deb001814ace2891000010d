@@ -1,0 +1,20 @@
+package com.kau.bitcointest;
+
+import java.util.ArrayList;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.kau.bitcointest.node.NodeInterface;
+
+@RestController
+public class BitcoinTestnetConfigController {
+	private final String datadir = "/Users/jaewook/BitcoinUser/";
+	
+	private ArrayList<NodeInterface> nodes;
+	
+	@RequestMapping("regtest/initsession")
+	public void initSession() {
+		
+	}
+}

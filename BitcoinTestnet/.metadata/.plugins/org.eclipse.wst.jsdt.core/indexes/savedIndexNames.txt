@@ -1,0 +1,7 @@
+INDEX VERSION 1.4+/Users/jaewook/Documents/Developer/BitcoinTestnet/.metadata/.plugins/org.eclipse.wst.jsdt.core/indexes
+3933384837.index
+1507581438.index
+2994098399.index
+20954947.index
+755781194.index
+2981872444.index
