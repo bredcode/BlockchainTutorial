@@ -399,6 +399,9 @@ export default {
       this.controlHashPower = '현재 해시파워 : ' + parseInt(1000 - this.hashRate)
       this.hashRate = Math.min(1000, this.hashRate + 10)
     }
+  },
+  beforeDestroy () {
+    clearInterval(this.miningInterval)
   }
 }
 </script>
