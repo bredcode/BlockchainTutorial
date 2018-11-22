@@ -20,26 +20,24 @@
 
         <div id="line-space"></div>
 
-        <v-list two-line subheader>
-          <v-list-tile v-for="wallet in yourWallets" :key="wallet['.key']" avatar>
-            <v-list-tile-avatar>
-              <v-icon :class="[effect.iconClass]">{{ effect.icon }}</v-icon>
-            </v-list-tile-avatar>
+        <v-list-tile v-for="wallet in yourWallets" :key="wallet['.key']" avatar>
+          <v-list-tile-avatar>
+            <v-icon :class="[effect.iconClass]">{{ effect.icon }}</v-icon>
+          </v-list-tile-avatar>
 
-            <v-list-tile-content>
-              <v-list-tile-title>{{ wallet.hash }}</v-list-tile-title>
-              <v-list-tile-sub-title>{{ wallet.timeStamp }}</v-list-tile-sub-title>
-            </v-list-tile-content>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ wallet.hash }}</v-list-tile-title>
+            <v-list-tile-sub-title>{{ wallet.timeStamp }}</v-list-tile-sub-title>
+          </v-list-tile-content>
 
-            <v-icon color="grey lighten-1">attach_money</v-icon> {{ wallet.coin }} <div class="ml10"></div>
-            <v-btn icon>
-              <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
-            </v-btn>
-            <v-btn icon>
-              <v-icon color="grey lighten-1" @click="deleteWallet(wallet)">delete</v-icon>
-            </v-btn>
-          </v-list-tile>
-        </v-list>
+          <v-icon color="grey lighten-1">attach_money</v-icon> {{ wallet.coin }} <div class="ml10"></div>
+          <v-btn icon>
+            <v-icon color="grey lighten-1" @mouseover="mouseoverEvent(wallet.hash)" @click="copyWallet(wallet.hash)">file_copy</v-icon>
+          </v-btn>
+          <v-btn icon>
+            <v-icon color="grey lighten-1" @click="deleteWallet(wallet)">delete</v-icon>
+          </v-btn>
+        </v-list-tile>
 
         <v-form ref="form" v-model="valid">
           <v-text-field

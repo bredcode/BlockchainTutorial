@@ -1,6 +1,6 @@
 <template>
-  <v-app id="test">
-    <v-container grid-list-md text-md-center fluid fill-height>
+  <v-app>
+    <div id="upper-wrapper">
       <v-layout column>
         <v-flex md1 d-flex>
           <v-card>
@@ -69,7 +69,16 @@
           </v-card>
         </v-flex>
       </v-layout>
-    </v-container>
+    </div>
+    <div id="delimeter-wrapper">
+      <img id="delimeter-animation" src="https://cdn.ripple.com/wp-content/themes/ripple-beta/assets/img/home/ripplenet-section.gif">
+
+      <div id="delimeter-title"> {{ delTitle }} </div>
+      <div id="delimeter-description"> {{ delDescription }} </div>
+      <div class="downArrow bounce">
+        <div class="arrow"></div>
+      </div>
+    </div>
     <!-- db 초기화버튼 누르면 나타나는 문구 -->
     <v-dialog v-model="dbDialog" max-width="290">
       <div id="bg-white">
@@ -107,7 +116,9 @@ export default {
       dbTitle: 'Reset Blockchain',
       dbContent: 'Are you sure you want to clear all Blockchain contents?',
       agree: 'Yes',
-      disAgree: 'No'
+      disAgree: 'No',
+      delTitle: 'Do you know more ?',
+      delDescription: 'You can test using the bitcoin test network at the bottom'
     }
   },
   firebase () {
@@ -136,6 +147,10 @@ export default {
 </script>
 
 <style scoped>
+  #upper-wrapper{
+    width:100%;
+    height:100vh;
+  }
   #wrapper{
     display: flex;
     flex-direction: row;
@@ -147,7 +162,9 @@ export default {
   #title-box{
     font-size: 30px;
     font-weight: bold;
-    margin-bottom: 20%;
+    margin-top: 2%;
+    margin-bottom: 5%;
+    text-align: center;
   }
   #router-box{
     text-align: center;
@@ -198,5 +215,122 @@ export default {
   }
   #bg-white{
     background-color: white !important;
+  }
+  #delimeter-wrapper{
+    width: 100%;
+    height: 450px;
+    background-color: #E6EAEE;
+    float: left;
+  }
+  #delimeter-animation{
+    float: left;
+    width: 400px;
+    height: auto;
+  }
+  #delimeter-title{
+    font-size: 30px;
+    font-weight: bold;
+    color: #066B98;
+    width: auto;
+    padding-top: 8%;
+    padding-right: 35%;
+    text-align: center;
+    float: right;
+  }
+  #delimeter-description{
+    font-size: 20px;
+    font-weight: bold;
+    color: #344E5A;
+    width: auto;
+    padding-top: 3%;
+    padding-right: 16.5%;
+    text-align: center;
+    float: right;
+  }
+
+  .arrow {
+    height: 15px; width: 15px;
+    border: 1px solid tomato;
+    border-width: 2px 2px 0 0;
+    transform: rotate(135deg);
+  }
+  .arrow:before {
+    border-color:
+      darkorange
+      transparent
+      transparent
+      darkorange;
+    display: block;
+    top: -1px; right: 0px;
+    transform-origin: top right;
+    transform: rotate(45deg); 
+  }
+  .arrow:after {
+    border-color:
+      transparent
+      darkorange
+      darkorange
+      transparent;
+    top: 0px; right: -1px;
+    transform-origin: top right;
+    transform: rotate(-45deg);
+  }
+  .downArrow{
+    position: absolute;
+    top: 97%;
+    left: 50%;
+  }
+  .bounce {
+    -moz-animation: bounce 3s infinite;
+    -webkit-animation: bounce 3s infinite;
+    animation: bounce 3s infinite;
+  }
+  @-moz-keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      -moz-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -moz-transform: translateY(-30px);
+      transform: translateY(-30px);
+    }
+    60% {
+      -moz-transform: translateY(-15px);
+      transform: translateY(-15px);
+    }
+  }
+  @-webkit-keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -webkit-transform: translateY(-30px);
+      transform: translateY(-30px);
+    }
+    60% {
+      -webkit-transform: translateY(-15px);
+      transform: translateY(-15px);
+    }
+  }
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      -moz-transform: translateY(0);
+      -ms-transform: translateY(0);
+      -webkit-transform: translateY(0);
+      transform: translateY(0);
+    }
+    40% {
+      -moz-transform: translateY(-30px);
+      -ms-transform: translateY(-30px);
+      -webkit-transform: translateY(-30px);
+      transform: translateY(-30px);
+    }
+    60% {
+      -moz-transform: translateY(-15px);
+      -ms-transform: translateY(-15px);
+      -webkit-transform: translateY(-15px);
+      transform: translateY(-15px);
+    }
   }
 </style>
