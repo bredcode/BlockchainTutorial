@@ -72,9 +72,10 @@
     </div>
     <div id="delimeter-wrapper">
       <img id="delimeter-animation" src="https://cdn.ripple.com/wp-content/themes/ripple-beta/assets/img/home/ripplenet-section.gif">
-
-      <div id="delimeter-title"> {{ delTitle }} </div>
-      <div id="delimeter-description"> {{ delDescription }} </div>
+      <div id="delimeter-box">
+        <div id="delimeter-title"> {{ delTitle }} </div>
+        <div id="delimeter-description"> {{ delDescription }} </div>
+      </div>
       <div class="downArrow bounce">
         <div class="arrow"></div>
       </div>
@@ -148,8 +149,9 @@ export default {
 
 <style scoped>
   #upper-wrapper{
-    width:100%;
-    height:100vh;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 50px;
   }
   #wrapper{
     display: flex;
@@ -233,9 +235,8 @@ export default {
     color: #066B98;
     width: auto;
     padding-top: 8%;
-    padding-right: 35%;
     text-align: center;
-    float: right;
+    float: left;
   }
   #delimeter-description{
     font-size: 20px;
@@ -243,11 +244,15 @@ export default {
     color: #344E5A;
     width: auto;
     padding-top: 3%;
-    padding-right: 16.5%;
     text-align: center;
-    float: right;
+    float: left;
   }
-
+  #delimeter-box{
+    display: flex;
+    flex-direction: column;
+    align-items: baseline;
+    padding-left: 10%;
+  }
   .arrow {
     height: 15px; width: 15px;
     border: 1px solid tomato;
