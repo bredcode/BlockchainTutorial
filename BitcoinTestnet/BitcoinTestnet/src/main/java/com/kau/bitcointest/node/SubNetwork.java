@@ -10,6 +10,7 @@ public class SubNetwork implements NodeInterface{
 	private Integer rpcport;
 	private String id;
 	private Integer connect_port;
+	private String client_id;
 	
 	public SubNetwork(String id, Integer port, Integer rpcport, Integer connect_port) {
 		// TODO Auto-generated constructor stub
@@ -43,5 +44,15 @@ public class SubNetwork implements NodeInterface{
 
 		
 		return gson.toJson(map, map.getClass());
+	}
+	@Override
+	public String getClientId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setClientId(String client_id) {
+		// TODO Auto-generated method stub
+		
 	}
 }

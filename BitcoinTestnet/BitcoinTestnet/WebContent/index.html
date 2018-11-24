@@ -16,25 +16,38 @@
             <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.3/html5shiv.js"></script>
             <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <style>
+            body{
+                padding: 50px;
+            }
+        </style>
     </head>
     <body>
-        <h1 class="text-center">Hello World</h1>
-        <button id="test_btn">Test button</button>
-        <div>
-            <h2>Result</h2>
-            <textarea id ="result" disabled>
-
-            </textarea>
-        </div>
-
+        <h1 class="text-center">Bitcoin test 관리자 페이지입니다.</h1>
+        <br>
+        <br>
+        <p >
+            1. 시작전 반드시 "폴더초기화" 후 101개 블럭 수 (Generate Block Number)로 마이닝 
+            <br> (실패 시 폴더 재 초기화 후 재시도)
+            <br>2. Client Number (수강생 수)입력 후 "새로운 세션" 클릭
+            <br>3. Nodes에서 1BTC씩 분배 해줄 것
+            <br>4. 반드시 주기적으로 마이닝 해줄 것.(거래 confirm을 위해)
+        </p>
         <div>
             
             <br>
             <button type="button" id="init_session" class="btn btn-danger">폴더 초기화</button>
-            
             <br>
+            <br>
+            <br>
+            <label for="block_num" class="col-sm-2">Generate Block Number</label>
             
-
+            <input type="text" name="" id="block_num" class="form-control">
+            
+            <button type="button" id="generate_block" class="btn btn-default">마이닝</button>
+            
+            <br><br>
+            
             <label for="client_num" class="col-sm-2">Client number</label>
             
             <input type="text" name="" id="client_num" class="form-control">
@@ -46,12 +59,19 @@
 
         <br>
         <h1>Nodes</h1>
+                
         <div>
             
             <div class="list-group" id="node_list">
-                <a class="list-group-item list-group-item-action">Item 1</a>
-                <a class="list-group-item list-group-item-action">Item 2</a>
-                <a class="list-group-item list-group-item-action">Item 3</a>
+                <div class="list-group-item list-group-item-action">Item 1 
+                    <button type="button" class="btn btn-default send_btc">1BTC</button>
+                </div>
+                <div class="list-group-item list-group-item-action">Item 1 
+                    <button type="button" class="btn btn-default send_btc">1BTC</button>
+                </div>
+                <div class="list-group-item list-group-item-action">Item 1 
+                    <button type="button" class="btn btn-default send_btc">1BTC</button>
+                </div>
             
             </div>
             
@@ -60,6 +80,6 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
         <!-- Bootstrap JavaScript -->
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="index.js"></script>
+        <script src="/BitcoinTestnet/index.js"></script>
     </body>
 </html>

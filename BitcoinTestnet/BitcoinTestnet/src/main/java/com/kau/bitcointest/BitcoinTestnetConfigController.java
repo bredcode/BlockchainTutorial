@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.google.gson.Gson;
+import com.kau.bitcointest.database.BitcoinNodeDatabase;
 import com.kau.bitcointest.node.Network;
 import com.kau.bitcointest.node.NodeInterface;
 import com.kau.bitcointest.node.SubNetwork;
@@ -20,7 +21,7 @@ public class BitcoinTestnetConfigController {
 	private final String datadir = "/Users/jaewook/BitcoinUser/";
 	private final Integer rpcport_base = 3000;
 	private final Integer port_base = 4000;
-	private ArrayList<NodeInterface> nodes;
+	private ArrayList<NodeInterface> nodes = BitcoinNodeDatabase.getInstance().getNodeArray();
 	private Network networkNode;
 	@RequestMapping("regtest/initsession")
 	public void initSession() throws IOException {
@@ -62,6 +63,17 @@ public class BitcoinTestnetConfigController {
 	}
 	public void stopClient(NodeInterface node) {
 		CommandUtils.execute("bitcoin-cli -regtest "+node.cliOption(datadir) + " stop");
+	}
+	
+	@RequestMapping("regtest/generateblock")
+	public String generateBlock(@RequestParam("block_num")Integer block_num) {
+		return CommandUtils.execute("bitcoin-cli -regtest "+ networkNode.cliOption(datadir)+ " generate "+block_num);
+	}
+	
+	@RequestMapping("regtest/networktoaddress")
+	public String networkToAddress(@RequestParam("to_address")String to_address, @RequestParam("btc") Float btc) {
+		System.out.println("to_address="+to_address+"/btc="+btc);
+		return CommandUtils.execute("bitcoin-cli -regtest "+ networkNode.cliOption(datadir)+ " sendtoaddress \""+to_address + "\" " + btc);
 	}
 	
 }

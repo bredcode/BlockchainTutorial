@@ -1,0 +1,38 @@
+body{
+    background-color: black;
+    
+}
+.main_title{
+    color: white;
+}
+.function_box{
+    margin: 20px auto;
+    background-color: rgb(33, 33,33);
+    border-radius: 10px;
+    padding: 5px;
+}
+.function_btn{
+    background-color: rgb(28, 46,63);
+    color: white;
+    border: none;
+    font-weight: bold;
+}
+.command_line_wrapper{
+    font-family: 'Courier New', Courier, monospace;
+    padding: 10px;
+    color: white;
+    background-color: black;
+    border-radius: 10px;
+}
+.command_line_wrapper .command_line_modal{
+    margin: 0;
+}
+.function_btn{
+    margin:5px auto;
+}
+.command_comment_wrapper{
+    background-color: lightgoldenrodyellow;
+    margin-top: 10px;
+    border-radius: 10px;
+    padding: 10px;
+}

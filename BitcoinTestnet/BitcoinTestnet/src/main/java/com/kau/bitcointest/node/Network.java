@@ -37,4 +37,14 @@ public class Network implements NodeInterface{
 		return port;
 	}
 	
+	@Override
+	public String getClientId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public void setClientId(String client_id) {
+		// TODO Auto-generated method stub
+		
+	}
 }
