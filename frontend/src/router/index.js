@@ -7,6 +7,7 @@ import TransactionPage from '@/components/TransactionPage'
 import MiningPage from '@/components/MiningPage'
 import MempoolPage from '@/components/MempoolPage'
 import HistoryPage from '@/components/HistoryPage'
+import EncryptionPage from '@/components/EncryptionPage'
 
 Vue.use(Router)
 
@@ -52,6 +53,12 @@ export default new Router({
       path: '/HistoryPage/:id',
       name: 'HistoryPage',
       component: HistoryPage,
+      props: true
+    },
+    {
+      path: '/EncryptionPage/:id',
+      name: 'EncryptionPage',
+      component: EncryptionPage,
       props: true
     }
   ]

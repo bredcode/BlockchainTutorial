@@ -28,6 +28,16 @@
                 </div>
               </router-link>
             </div>
+            <div id="line-space"></div>
+            <div id="line-space"></div>
+            <div id="router-box">
+              <div id="db-box" @click="resetDB()">
+                <img src="../assets/image/db-reset.png" width="256px" height="256px">
+                <div id="font20-bold">
+                  {{ dbReset }}
+                </div>
+              </div>
+            </div>
           </v-card>
           <v-card>
             <div id="router-box">
@@ -56,15 +66,15 @@
                   {{ mining }}
                 </div>
               </router-link>
-              <div id="line-space"></div>
-              <div id="router-box">
-                <div id="db-box" @click="resetDB()">
-                  <img src="../assets/image/db-reset.png" width="256px" height="256px">
-                  <div id="font20-bold">
-                    {{ dbReset }}
-                  </div>
+            </div>
+            <div id="line-space"></div>
+            <div id="router-box">
+              <router-link :to="'/EncryptionPage'+'/'+id">
+                <img src="../assets/image/encryption.png">
+                <div id="font20-bold">
+                  {{ encryption }}
                 </div>
-              </div>
+              </router-link>
             </div>
           </v-card>
         </v-flex>
@@ -119,7 +129,8 @@ export default {
       agree: 'Yes',
       disAgree: 'No',
       delTitle: 'Do you know more ?',
-      delDescription: 'You can test using the bitcoin test network at the bottom'
+      delDescription: 'You can test using the bitcoin test network at the bottom',
+      encryption: 'Encryption'
     }
   },
   firebase () {
@@ -136,6 +147,7 @@ export default {
       db.ref('blockChain').remove()
       db.ref('transactionHistory').remove()
       db.ref('miningData').remove()
+      db.ref('sign').remove()
       var info = {
         target: 3,
         blockNumber: 0
