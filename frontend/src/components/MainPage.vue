@@ -128,7 +128,7 @@ export default {
       dbContent: 'Are you sure you want to clear all Blockchain contents?',
       agree: 'Yes',
       disAgree: 'No',
-      delTitle: 'Do you know more ?',
+      delTitle: 'Want to know more ?',
       delDescription: 'You can test using the bitcoin test network at the bottom',
       encryption: 'Encryption'
     }
