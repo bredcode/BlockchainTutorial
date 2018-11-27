@@ -46,11 +46,25 @@
 
 
 
-##### ​	1.6 암호화
+##### 	1.6 암호화
 
 ​		암호화 부분에서는 SHA256을 경험해 볼 수 있고 ECC를 이용하여 직접 Private key를 생성하여 Public key를 얻는 과정을 진행해 볼 수있습니다.
 
 ​		그리고 전자서명을 실습해보고 거래 검증을 해볼 수 있습니다.
+
+
+
+```vue
+Frontend 부분의 서비스를 직접 제작하고 실행해보고 싶을 때는 아래 명령어를 이용합니다.
+
+# serve with hot reload at localhost:8080
+npm run dev
+
+Frontend 부분의 서비스를 배포하기 위해서는 아래 명령어를 이용합니다.
+
+# build for production with minification
+npm run build
+```
 
 
 
