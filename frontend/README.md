@@ -1,33 +1,59 @@
-# BlockchainTutorial
-> 직접 실행해보면서 체험해보는 블록체인 튜토리얼
->
-> A Vue.js project
+# Blockchain Tutorial Project
+
+#### 이 프로젝트를 이용하여 총 2가지 튜토리얼을 진행해 볼 수 있습니다.
 
 
 
-## Build Setup
+## 1. Blockchain Tutorial Program 
 
-```bash
-# install dependencies
-npm install
+#### 블록체인 전반적인 내용을 실습해 볼 수 있고, 직접 지갑 생성, 트랜잭션 생성, 마이닝 등등을 경험해 볼 수 있습니다.
 
-# serve with hot reload at localhost:8080
-npm run dev
 
-# build for production with minification
-npm run build
 
-# build for production and view the bundle analyzer report
-npm run build --report
+##### 	1.1 지갑 생성	
 
-# run unit tests
-npm run unit
+​		지갑을 직접 생성, 삭제할 수 있습니다. 이때 실습을 위해 초기 100 코인이 지갑에 자동으로 부여됩니다.
 
-# run e2e tests
-npm run e2e
+​		이때 만든 지갑들은 추후 트랜잭션 생성에서 사용됩니다.
 
-# run all tests
-npm test
-```
+ 
 
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+##### 	1.2 	트랜잭션 생성
+
+​		트랜잭션 생성을 위해 상대방 지갑 주소를 알아야 합니다. 지갑에 들어있는 코인보다 작거나 같은 금액을 입력하면 트랜잭션이 생성 됩니다.
+
+​		이때 여러번 트랜잭션을 생성할 경우(ex: 100코인이 있는데 10코인짜리 트랜잭션 11번 생성) 추후 마이닝 부분에서 처리가 됩니다.
+
+
+
+##### ​	1.3 마이닝
+
+​		마이닝을 이용하여 직접 채굴을 하고 Hash Power를 조절함으로써 채굴 속도를 체감해 볼 수 있습니다. Nonce가 3000이상일 때 채굴이 되면 다음 난이도는 0이 2개 이상인 Hash를 찾으면 되고, 그 외에는 0이 3개인 Hash를 찾으면 되도록 되어있습니다.
+
+​		이때 생성된 블록을 클릭하면 해당하는 블록에 담긴 트랜잭션과 블록 정보를 확인 할 수 있습니다.
+
+
+
+##### 	1.4 메모리 풀
+
+​		메모리 풀에서는 트랜잭션이 생성되었으나 아직 채굴되지 않은 트랜잭션들을 볼 수 있습니다.
+
+
+
+##### 	1.5 트랜잭션 히스토리
+
+​		트랜잭션 히스토리에서는 채굴이 된 블록들과 트랜잭션 내역들을 볼 수 있습니다.
+
+
+
+##### ​	1.6 암호화
+
+​		암호화 부분에서는 SHA256을 경험해 볼 수 있고 ECC를 이용하여 직접 Private key를 생성하여 Public key를 얻는 과정을 진행해 볼 수있습니다.
+
+​		그리고 전자서명을 실습해보고 거래 검증을 해볼 수 있습니다.
+
+
+
+## 2. Bitcoin Testnet Program
+
+#### 비트코인 테스트넷을 통해 블록체인을 실습해보고 다양한 명령어를 익힐 수 있는 프로그램입니다.
