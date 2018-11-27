@@ -20,7 +20,7 @@
         <div id="line-space"></div>
         <div id="hash-wrapper">
             <div id="hash-description">
-              특정 Text를 입력하면 SHA-256으로 해싱된 값이 출력됩니다.
+              Text를 입력하면 SHA-256으로 해싱된 값이 출력됩니다.
             </div>
             <v-textarea
               outline
@@ -42,15 +42,18 @@
         <div id="hash-wrapper">
             <div id="hash-description">
               <div> 64자리의 숫자로 구성된 Key를 생성하면 Private key가 되고 </div>
-              <div> 이를 이용하여 SHA-256으로 한번 해싱한 후 다시 RIPEMD-160으로 해싱하면 </div>
+              <div> Private Key와 타원 곡선 암호화를 이용하여 Public Key를 생성합니다. </div>
+              <div> 이 Public Key를 SHA-256으로 해싱한 후 다시 RIPEMD-160으로 해싱하면 </div>
               <div> 32자리로 구성된 Public key가 생성됩니다. </div>
             </div>
+            <v-btn block color="error" @click="randomGenerate()">Random Generator</v-btn>
             <v-text-field
               v-model="privateKey"
               counter="64"
               maxlength="64"
               label="Private key"
               outline
+              readonly
             ></v-text-field>
             <v-text-field
               value=""
@@ -175,10 +178,14 @@
 <script>
 import SHA256 from '../js/function.js'
 import { db } from '../js/db.js'
+import * as ECC from '../js/ecc.js'
 
 export default {
   name: 'app',
   props: ['id'],
+  mounted () {
+
+  },
   data () {
     return {
       encryptionTitle: 'What is encryption in blockchain?',
@@ -217,25 +224,11 @@ export default {
   },
   methods: {
     signClick () {
-      // public key가 제대로 입력된지 확인
-      for (let i = 0; i < this.signPrivateKey.length; i++) {
-        if (!(this.signPrivateKey[i] >= 0 && this.signPrivateKey[i] <= 9)) {
-          alert('Please insert number only')
-          return
-        }
-      }
-      if (this.signPrivateKey.length === 64) {
-        this.signPublicKey = '2'
-        // 실제로는 RIPEMD로 해야하지만 테스트이기에 SHA256 두번 사용
-        let tmp = SHA256(SHA256(this.signPrivateKey))
-        for (let i = 0; i < 31; i++) {
-          this.signPublicKey += tmp[i]
-        }
-
-        this.signKey = SHA256(this.signPrivateKey + this.signInputText)
-        let ret = {signInputText: this.signInputText, privateKey: this.signPrivateKey, publicKey: this.signPublicKey, signKey: this.signKey}
-        db.ref('sign').push(ret)
-      }
+      this.signPrivateKey = this.privateKey
+      this.signPublicKey = this.publicKey
+      this.signKey = SHA256(this.signPrivateKey + this.signInputText)
+      let ret = {signInputText: this.signInputText, privateKey: this.signPrivateKey, publicKey: this.signPublicKey, signKey: this.signKey}
+      db.ref('sign').push(ret)
     },
     verifyClick () {
       for (let i = 0; i < this.signs.length; i++) {
@@ -251,36 +244,40 @@ export default {
         }
       }
       this.isInValidSign = true
+    },
+    randomGenerate () {
+      let arr = '0123456789abcdef'
+
+      this.privateKey = ''
+      for (let i = 0; i < 64; i++) {
+        this.privateKey += arr[parseInt(Math.random() * 100 % 16)]
+      }
+      this.makePublicKey()
+    },
+    makePublicKey () {
+      let privateKey = new Buffer(this.privateKey, 'hex')
+
+      let curvePt = ECC.ecparams.G.multiply(ECC.BigInteger.fromBuffer(privateKey))
+      let x = curvePt.affineX.toBuffer(32)
+      let y = curvePt.affineY.toBuffer(32)
+
+      let publicKey = Buffer.concat([new Buffer([0x04]), x, y])
+
+      publicKey = curvePt.getEncoded(false)
+
+      publicKey = curvePt.getEncoded(true)
+      let sha = ECC.crypto.createHash('sha256').update(publicKey).digest()
+      let pubkeyHash = ECC.crypto.createHash('rmd160').update(sha).digest()
+
+      this.publicKey = '2'
+      for (let i = 0; i < 31; i++) {
+        this.publicKey += pubkeyHash.toString('hex')[i]
+      }
     }
   },
   watch: {
     inputText () {
       this.sha256Ret = SHA256(this.inputText)
-    },
-    privateKey () {
-      for (let i = 0; i < this.privateKey.length; i++) {
-        if (!(this.privateKey[i] >= 0 && this.privateKey[i] <= 9)) {
-          alert('Please insert number only')
-          return
-        }
-      }
-      if (this.privateKey.length === 64) {
-        this.publicKey = '2'
-        // 실제로는 RIPEMD로 해야하지만 테스트이기에 SHA256 두번 사용
-        let tmp = SHA256(SHA256(this.privateKey))
-        for (let i = 0; i < 31; i++) {
-          this.publicKey += tmp[i]
-        }
-      }
-    },
-
-    signPrivateKey () {
-      for (let i = 0; i < this.signPrivateKey.length; i++) {
-        if (!(this.signPrivateKey[i] >= 0 && this.signPrivateKey[i] <= 9)) {
-          alert('Please insert number only')
-          return
-        }
-      }
     }
   }
 }
