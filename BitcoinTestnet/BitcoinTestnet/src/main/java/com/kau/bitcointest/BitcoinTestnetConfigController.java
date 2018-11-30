@@ -107,6 +107,31 @@ public class BitcoinTestnetConfigController {
 		return gson.toJson(subnet.getNodeInfo());
 	}
 	
+	@RequestMapping("regtest/autoloadnode")
+	public String autoLoadNodeInfo(@RequestParam("client_id") String client_id) {
+		ArrayList<NodeInterface> node_array = BitcoinNodeDatabase.getInstance().getNodeArray();
+		for (int i = 0; i < node_array.size(); i++) {
+			NodeInterface node = node_array.get(i);
+			if(client_id.equals(node.getClientId())) {
+				SubNetwork subnet = (SubNetwork)node;
+				Gson gson = new Gson();
+				return gson.toJson(subnet.getNodeInfo());
+			}
+		}
+		synchronized (node_array) {
+			for (int i = 0; i < node_array.size(); i++) {
+				NodeInterface node = node_array.get(i);
+				String tmp_client_id = node.getClientId();
+				if(tmp_client_id == null) {
+					node.setClientId(client_id);
+					SubNetwork subnet = (SubNetwork)node;
+					Gson gson = new Gson();
+					return gson.toJson(subnet.getNodeInfo());
+				}
+			}
+		}
+		return null;
+	}
 	@RequestMapping("regtest/getallnodeinfo")
 	public String getAllNodeInfo() {
 		ArrayList<HashMap<String, String>> result_array = new ArrayList<>();

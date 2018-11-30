@@ -1,2 +1,4 @@
 BitcoinTestnet/.metadata*
+BitcoinTestnet/.metadata/.plugins/org*
+BitcoinTestnet/WEB-INF/*
 frontend/config

@@ -82,30 +82,30 @@ $(document).ready(function(){
     });
     $("#load_node_btn").click(function(){
         var $clientid = $("#client_id");
-        var $nodeid = $("#node_id");
         var client_id = $clientid.val();
-        var node_id = $nodeid.val();
 
-        if(client_id.length > 0 && node_id.length > 0){
+        if(client_id.length){
             $.ajax({
-                url: "/BitcoinTestnet/regtest/loadnode",
+                url: "/BitcoinTestnet/regtest/autoloadnode",
                 data:{
-                    client_id: client_id,
-                    node_id: node_id
+                    client_id: client_id
                 },
                 success:function(data){
                     console.log(data);
-                    var session_obj = JSON.parse(data);
-                    TEST_NODE_ID = session_obj.id;
-                    TEST_CLIENT_ID = session_obj.client_id;
-                    TEST_RPCPORT = session_obj.rpcport;
-                    $("#load_node_btn").prop("disabled",true);
-                    $clientid.prop("disabled",true);
-                    $nodeid.prop("disabled",true);
+                    if(data == null || data == ""){
+                        alert("노드 로드 실패!(로그인 할 노드가 없습니다.)");
+                    }else{
+                        var session_obj = JSON.parse(data);
+                        TEST_NODE_ID = session_obj.id;
+                        TEST_CLIENT_ID = session_obj.client_id;
+                        TEST_RPCPORT = session_obj.rpcport;
+                        $("#load_node_btn").prop("disabled",true);
+                        $clientid.prop("disabled",true);
+                    }
                 }
             })
         }else{
-            alert("client_id 와 node_id 모두 입력하세요");
+            alert("client_id를 입력하세요");
         }
     });
     $("#load_all_node_btn").click(function(){
