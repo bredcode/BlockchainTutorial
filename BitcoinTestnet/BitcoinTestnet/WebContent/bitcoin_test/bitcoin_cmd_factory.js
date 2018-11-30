@@ -1,44 +1,55 @@
 var CMD_FACTORY = {
     getblockcount : {
-        comment: "블록 개수를 확인"
+        comment: "블록 개수를 확인",
+        params: []
     },
     getblockhash : {
         comment: "블록 해쉬를 조회",
-        options: ["확인할 블록 번호"]
+        options: ["확인할 블록 번호"],
+        params: ["block_num"]
     },
     getblock : {
         comment: "블록 해쉬를 통해 블록 정보 확인",
-        options: ["확인할 블록의 해쉬"]
+        options: ["확인할 블록의 해쉬"],
+        params: ["block_hash"]
     },
     getnewaddress : {
         comment: "새로운 지갑 주소를 생성",
-        options: ["임의의 지갑 이름"]
+        options: ["지갑 이름"],
+        params: ["name"]
     },
     getaddressinfo : {
         comment: "지갑 정보를 확인",
-        options: ["지갑 주소"]
+        options: ["지갑 주소"],
+        params: ["address"]
     },
     listunspent : {
         comment: "특정 지갑주소의 잔액(UTXO)을 조회",
-        options: ["지갑 주소"]
+        options: ["지갑 주소"],
+        params: ["addresses"]//addresses는 배열로 보낼 것
     },
     getbalance : {
         comment: "내 노드의 전체 잔액 조회",
+        params: []
     },
     sendtoaddress : {
         comment: "특정 계좌로 송금",
-        options: ["보낼 계좌 주소","보낼 BTC"]
+        options: ["보낼 계좌 주소","보낼 BTC"],
+        params: ["to_address","btc"]
     },
     gettransaction : {
         comment: "transaction 정보를 조회",
-        options: ["transaction id (txid)"]
+        options: ["transaction id (txid)"],
+        params: ["txid"]
     },
     getrawtransaction : {
         comment: "raw transaction 정보를 조회",
-        options: ["transaction id (txid)"]
+        options: ["transaction id (txid)"],
+        params: ["txid"]
     },
     decoderawtransaction : {
         comment: "raw transaction의 hex 값을 디코드하여 정보 확인",
-        options:["transaction의 hex 값"]
+        options:["transaction의 hex 값"],
+        params: ["tx_hash"]
     }
 }

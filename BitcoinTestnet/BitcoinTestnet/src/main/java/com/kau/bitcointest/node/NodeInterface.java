@@ -1,5 +1,7 @@
 package com.kau.bitcointest.node;
 
+import java.util.HashMap;
+
 public interface NodeInterface {
 	public String serverStartOption(String basedir);
 	public String cliOption(String basedir);

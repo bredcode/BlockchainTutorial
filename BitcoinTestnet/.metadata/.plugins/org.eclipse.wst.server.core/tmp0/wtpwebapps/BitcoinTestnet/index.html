@@ -5,7 +5,7 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>Title Page</title>
+        <title>Bitcoin-Cli 관리자 페이지 </title>
 
         <!-- Bootstrap CSS -->
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
@@ -31,7 +31,7 @@
             <br> (실패 시 폴더 재 초기화 후 재시도)
             <br>2. Client Number (수강생 수)입력 후 "새로운 세션" 클릭
             <br>3. Nodes에서 1BTC씩 분배 해줄 것
-            <br>4. 반드시 주기적으로 마이닝 해줄 것.(거래 confirm을 위해)
+            <br>4. 반드시 주기적으로 마이닝 해줄 것. 혹은 "주기적 마이닝" 기능 사용(거래 confirm을 위해)
         </p>
         <div>
             
@@ -42,22 +42,30 @@
             <br>
             <label for="block_num" class="col-sm-2">Generate Block Number</label>
             
-            <input type="text" name="" id="block_num" class="form-control">
+            <input type="text" name="" id="block_num" placeholder="생성할 블록 갯수" class="form-control">
             
-            <button type="button" id="generate_block" class="btn btn-default">마이닝</button>
-            
+            <button type="button" id="generate_block" class="btn btn-default">마이닝</button><br>
+            <hr>
+            <label for="mining_interval_num" class="col-sm-2">Mining with TimeInterval : default 15s</label>
+            <input type="text" name="" id="mining_interval_num" placeholder="마이닝 주기" class="form-control">
+            <button type="button" id="mining_btn" class="btn btn-default">주기적 마이닝 </button>
+        
+        
             <br><br>
             
             <label for="client_num" class="col-sm-2">Client number</label>
             
-            <input type="text" name="" id="client_num" class="form-control">
+            <input type="text" name="" id="client_num" placeholder="수강생 수" class="form-control">
             
             <button type="button" id="create_session" class="btn btn-default">새로운 세션</button>
+            
+            <button type="button" id="add_session" class="btn btn-default">세션 추가하기</button>
             
             
         </div>
 
         <br>
+        
         <h1>Nodes</h1>
                 
         <div>

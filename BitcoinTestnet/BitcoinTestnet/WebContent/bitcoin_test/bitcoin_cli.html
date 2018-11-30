@@ -20,8 +20,15 @@
     </head>
     <body>
         <h1 class="text-center main_title">Welcome to Bitcoin CLI</h1>
+
+        <input type="text" id="client_id" placeholder="client id를 입력하세요." name="" class="form-control" >
+        <input type="text" id="node_id" placeholder="node 번호를 입력하세요." name="" class="form-control" >
+        <div class="node_function_wrapper">
+            <button type="button" id="load_all_node_btn" class="load_node btn btn-info">모든 노드 정보보기</button>
+            <button type="button" id="load_node_btn" class="load_node btn btn-info">노드 정보 로드하기</button>
+        </div>
         
-        <input type="text" id="node_id" placeholder="node id를 입력하세요." name="" id="input" class="form-control" >
+        
         <input type="hidden" id="node_port">       
         <div class="function_box">
             <button type="button" class="btn btn-info function_btn">블록 개수 확인 
@@ -58,10 +65,9 @@
                 <input type="hidden" class="function_data" value="decoderawtransaction">
             </button>
         </div>
-        <div class="command_line_wrapper">
-            <div class="command_line">
-                $ bitcoin-cli -regtest
-            </div>
+        <div class="main_command_lines command_line_wrapper">
+            <h4 class="command_line_header">Command Result</h4>
+            <hr style="border-color: gray">
         </div>
 
         
@@ -85,12 +91,39 @@
                             </p>
                         </div>
                         <div class="command_input_wrapper">
-
+                            
+                            <input type="text" id="input" class="form-control" placeholder="">
+                            
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Save changes</button>
+                        <button type="button" id="modal_command_execute_btn" class="btn btn-primary">Execute</button>
+                    </div>
+                    <input type="hidden" id="modal_command_data">
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="modal fade" id="node_info_modal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title">노드 정보 조회</h4>
+                    </div>
+                    <div class="modal-body">
+                        <h4 class="available_node"></h4>
+                        <div class="node_info_wrapper">
+                            <div class="panel panel-success">
+                                <div class="panel-heading">Panel with panel-success class</div>
+                                <div class="panel-body">Panel Content</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
                     </div>
                 </div>
             </div>

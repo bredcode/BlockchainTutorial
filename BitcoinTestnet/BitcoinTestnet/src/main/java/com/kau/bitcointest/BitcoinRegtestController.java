@@ -11,12 +11,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.kau.bitcointest.database.BitcoinNodeDatabase;
 import com.kau.bitcointest.node.NodeInterface;
+import com.kau.bitcointest.node.SubNetwork;
 import com.kau.bitcointest.terminal.CommandUtils;
 
 @RestController
 public class BitcoinRegtestController {
 	private final String datadir = "/Users/jaewook/BitcoinUser/";	
-	private ArrayList<NodeInterface> nodes = BitcoinNodeDatabase.getInstance().getNodeArray();
+	private static ArrayList<NodeInterface> nodes = BitcoinNodeDatabase.getInstance().getNodeArray();
 	
 	//-----------------Count the number of blocks
 	@RequestMapping("regtest/getblockcount") //블록 개수 확인
@@ -41,6 +42,14 @@ public class BitcoinRegtestController {
 	@RequestMapping("regtest/getnewaddress")
 	public String getnewaddress(@RequestParam("name") String name, @RequestParam("id") String id, @RequestParam("rpcport") Integer rpcport) throws IOException, InterruptedException {
 		System.out.println("[DEBUG]name:"+name);
+		ArrayList<NodeInterface> node_array = BitcoinNodeDatabase.getInstance().getNodeArray();
+		SubNetwork node = (SubNetwork)node_array.get(Integer.parseInt(id));
+		String result_address = "";
+		if(node.getAddress() == null || node.getAddress().equals("")) {
+			result_address = CommandUtils.execute("bitcoin-cli -regtest -datadir="+datadir+id+"/"+" -rpcport="+rpcport+" getnewaddress "+name);
+			node.setAddress(result_address);
+			return result_address;
+		}
 		
 		return CommandUtils.execute("bitcoin-cli -regtest -datadir="+datadir+id+"/"+" -rpcport="+rpcport+" getnewaddress "+name);
 	}

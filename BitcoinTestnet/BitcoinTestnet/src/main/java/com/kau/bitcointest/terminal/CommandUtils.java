@@ -69,7 +69,8 @@ public class CommandUtils {
             } else {
                 // shell 실행이 비정상 종료되었을 경우
                 System.out.println("비정상 종료");
-                System.out.println(successOutput.toString());
+                System.out.println(errorOutput.toString());
+//                result_str = errorOutput.toString();
             }
  
             // shell 실행시 에러가 발생

@@ -3,6 +3,7 @@ package com.kau.bitcointest;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class BitcoinTestnetConfigController {
 	private final String datadir = "/Users/jaewook/BitcoinUser/";
 	private final Integer rpcport_base = 3000;
 	private final Integer port_base = 4000;
-	private ArrayList<NodeInterface> nodes = BitcoinNodeDatabase.getInstance().getNodeArray();
+	private static ArrayList<NodeInterface> nodes = BitcoinNodeDatabase.getInstance().getNodeArray();
 	private Network networkNode;
 	@RequestMapping("regtest/initsession")
 	public void initSession() throws IOException {
@@ -33,7 +34,7 @@ public class BitcoinTestnetConfigController {
 			}
 			nodes.clear();
 		}
-		nodes = new ArrayList<>();
+//		nodes = new ArrayList<>();
 		if(networkNode != null) {
 			stopClient(networkNode);
 		}
@@ -61,6 +62,23 @@ public class BitcoinTestnetConfigController {
 		}
 		return gson.toJson(jsonarray);
 	}
+	
+	@RequestMapping("regtest/addsession")
+	public String addSession(@RequestParam("num") Integer num) throws IOException {
+		ArrayList<String> jsonarray = new ArrayList<>();
+		ArrayList<NodeInterface> node_array = BitcoinNodeDatabase.getInstance().getNodeArray();
+		int start = node_array.size();
+		for (int i = 0; i < num; i++) {
+			SubNetwork node = new SubNetwork(String.valueOf(i+start), port_base+i+start, rpcport_base+i+start, networkNode.getPort());
+			node_array.add(node);
+			jsonarray.add(node.toString());
+			FileUtils.forceMkdir(new File(datadir+String.valueOf(i+start)));
+			CommandUtils.execute("bitcoind -regtest "+node.serverStartOption(datadir));
+		}
+		
+		Gson gson = new Gson();
+		return gson.toJson(jsonarray);
+	}
 	public void stopClient(NodeInterface node) {
 		CommandUtils.execute("bitcoin-cli -regtest "+node.cliOption(datadir) + " stop");
 	}
@@ -76,4 +94,29 @@ public class BitcoinTestnetConfigController {
 		return CommandUtils.execute("bitcoin-cli -regtest "+ networkNode.cliOption(datadir)+ " sendtoaddress \""+to_address + "\" " + btc);
 	}
 	
+	@RequestMapping("regtest/loadnode")
+	public String loadNodeInfo(@RequestParam("client_id") String client_id, @RequestParam("node_id")String node_id) {
+		ArrayList<NodeInterface> node_array = BitcoinNodeDatabase.getInstance().getNodeArray();
+		Integer index = Integer.parseInt(node_id);
+		System.out.println("[DEBUG] Bitcoin size"+BitcoinNodeDatabase.getInstance().getNodeArray().size());
+		NodeInterface node = node_array.get(index);
+		node.setClientId(client_id);
+		node_array.set(index, node);
+		SubNetwork subnet = (SubNetwork)node;
+		Gson gson = new Gson();
+		return gson.toJson(subnet.getNodeInfo());
+	}
+	
+	@RequestMapping("regtest/getallnodeinfo")
+	public String getAllNodeInfo() {
+		ArrayList<HashMap<String, String>> result_array = new ArrayList<>();
+		ArrayList<NodeInterface> node_array = BitcoinNodeDatabase.getInstance().getNodeArray();
+		for (int i = 0; i < node_array.size(); i++) {
+			SubNetwork node = (SubNetwork)node_array.get(i);
+			result_array.add(node.getNodeInfo());
+		}
+		Gson gson = new Gson();
+		
+		return gson.toJson(result_array);
+	}
 }

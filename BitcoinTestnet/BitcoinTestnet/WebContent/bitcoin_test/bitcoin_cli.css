@@ -1,6 +1,9 @@
+@import url(http://fonts.googleapis.com/earlyaccess/notosanskr.css);
 body{
     background-color: black;
-    
+    font-family: 'Noto Sans KR';
+    width: 100vw;
+    height: 100vh;
 }
 .main_title{
     color: white;
@@ -23,6 +26,9 @@ body{
     color: white;
     background-color: black;
     border-radius: 10px;
+    width: 100%;
+    overflow-y: scroll;
+    
 }
 .command_line_wrapper .command_line_modal{
     margin: 0;
@@ -35,4 +41,28 @@ body{
     margin-top: 10px;
     border-radius: 10px;
     padding: 10px;
+}
+.node_function_wrapper{
+    text-align: right;
+    padding: 0 10px;
+}
+.load_node{
+    margin-top: 20px;
+}
+.command_input_wrapper{
+    margin-top: 10px;
+}
+.command_input_wrapper .command_input{
+    margin-top: 5px;
+}
+.command_line{
+    overflow-x: auto;
+    text-overflow: ellipsis;
+    width: 100%;
+}
+.command_line .command_result{
+    margin: 5px 0;
+}
+.command_line_header{
+    font-family: "Noto Sans KR";
 }

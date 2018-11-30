@@ -6,13 +6,18 @@ import com.kau.bitcointest.node.NodeInterface;
 
 public class BitcoinNodeDatabase {
 	
-	private static BitcoinNodeDatabase instance;
+	private volatile static BitcoinNodeDatabase instance;
 	
-	private ArrayList<NodeInterface> nodes;
+	private static ArrayList<NodeInterface> nodes;
 	
 	public static BitcoinNodeDatabase getInstance() {
-		if(instance==null) {
-			instance = new BitcoinNodeDatabase();
+		if(instance == null) {
+			synchronized(BitcoinNodeDatabase.class) {
+				if(instance == null) {
+					instance = new BitcoinNodeDatabase();
+				}
+			}
+			
 		}
 		return instance;
 	}
