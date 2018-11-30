@@ -1,5 +1,9 @@
 package com.kau.bitcointest.node;
-
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 public class Network implements NodeInterface{
 	private String rpcuser;
 	private String rpcpassword;

@@ -1,5 +1,9 @@
 package com.kau.bitcointest;
-
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;

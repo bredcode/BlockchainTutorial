@@ -1,5 +1,9 @@
 package com.kau.bitcointest.node;
-
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 import java.util.HashMap;
 
 import com.google.gson.Gson;

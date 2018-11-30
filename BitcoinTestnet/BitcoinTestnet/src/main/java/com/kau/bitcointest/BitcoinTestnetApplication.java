@@ -1,5 +1,9 @@
 package com.kau.bitcointest;
-
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

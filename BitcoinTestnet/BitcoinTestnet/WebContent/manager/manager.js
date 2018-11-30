@@ -4,19 +4,21 @@ $(document).ready(function(){
     var $nodelist = $("#node_list");
 
     $("#init_session").click(function(){
+        $("#init_session").prop("disabled",true);
         $.ajax({
             url:"/BitcoinTestnet/regtest/initsession",
             success:function(){
                 $("#block_num").val(101);
                 $nodelist.html('<li class="list-group-item">no items</li>');
-                
+                session_arr = [];
                 alert("초기화 완료!");
-                
+                $("#init_session").prop("disabled",false);
             }
         })
     });
     $("#add_session").hide();
     $("#add_session").click(function(){
+        $("#add_session").prop("disabled",true);
         var $clientNum = $("#client_num");
         if($clientNum.val()!=null&&$clientNum.val()!=""){
             var num = $clientNum.val();
@@ -39,11 +41,13 @@ $(document).ready(function(){
                         $nodelist.append(createNodeHTML(id, rpcport));
                     }
                     bindSendBTCEvent();
+                    $("#add_session").prop("disabled",false);
                 }
             })
         }
     });
     $("#create_session").click(function(){
+        $("#create_session").prop("disabled",true);
         var $clientNum = $("#client_num");
         if($clientNum.val()!=null&&$clientNum.val()!=""){
             var num = $clientNum.val();
@@ -61,6 +65,7 @@ $(document).ready(function(){
                 bindSendBTCEvent();
                 $("#create_session").hide();
                 $("#add_session").show();
+                $("#create_session").prop("disabled",false);
             });
         }else{
             alert("Client Number를 채워주세요!");
@@ -68,6 +73,7 @@ $(document).ready(function(){
     });
 
     $("#generate_block").click(function(){
+        $("#generate_block").prop("disabled",true);
         var num = $("#block_num").val();
         if(num == "" || num == null){
             alert("Generate Block Number를 채워주세요!");
@@ -79,6 +85,7 @@ $(document).ready(function(){
             }else{
                 alert("[Callback]"+data);
             }
+            $("#generate_block").prop("disabled",false);
         });
     })
 

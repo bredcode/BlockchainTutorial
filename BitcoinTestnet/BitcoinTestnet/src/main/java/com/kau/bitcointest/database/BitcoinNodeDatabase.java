@@ -1,5 +1,9 @@
 package com.kau.bitcointest.database;
-
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 import java.util.ArrayList;
 
 import com.kau.bitcointest.node.NodeInterface;
