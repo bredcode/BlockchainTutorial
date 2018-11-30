@@ -36,7 +36,7 @@ import particlesConfig from '../js/particlesjs-config.json'
 export default {
   name: 'app',
   mounted () {
-    particlesJS("particles-js", particlesConfig)
+    particlesJS('particles-js', particlesConfig)
   },
   data () {
     return {
