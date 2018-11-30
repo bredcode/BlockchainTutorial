@@ -1,0 +1,17 @@
+package com.kau.bitcointest;
+
+public class SubNetwork {
+
+	private Integer port;
+	private Integer rpcport;
+	private String id;
+	private Integer connect_port;
+	
+	public SubNetwork(String id, Integer port, Integer rpcport, Integer connect_port) {
+		// TODO Auto-generated constructor stub
+		this.id = id;
+		this.port = port;
+		this.rpcport = rpcport;
+		this.connect_port = connect_port;
+	}
+}
