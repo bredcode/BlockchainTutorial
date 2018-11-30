@@ -1,3 +1,8 @@
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 $(document).ready(function(){
     getNodeInfo();
 

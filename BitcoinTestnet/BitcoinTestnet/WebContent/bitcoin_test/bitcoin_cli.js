@@ -1,3 +1,8 @@
+/**
+ * Developer Jaewook Lim (Korea Aerospace Univ.)
+ * 
+ * 
+ */
 var TEST_NODE_ID = null;
 var TEST_CLIENT_ID = null;
 var TEST_RPCPORT = null;
@@ -26,7 +31,7 @@ $(document).ready(function(){
         }
         $(".command_input_wrapper").html(command_inputs_html);
         $commandline_modal.find(".command_line").text("$ bitcoin-cli -regtest "+command+" "+cmd_option_string);
-        $commandline_modal.find(".command_comment").text(cmd_info.comment);
+        $commandline_modal.find(".command_comment").html(cmd_info.comment);
 
     });
     $("#modal_command_execute_btn").click(function(){
