@@ -27,9 +27,13 @@
         <p> {{ currentHash }} </p>
         <div id="hashpower-box">
           <span class="group pa-2">
-            <v-icon x-large color="red" @click="hashrateUp()">trending_up</v-icon>
+            <v-btn fab dark color="indigo" @click="hashrateDown()">
+              <v-icon dark>remove</v-icon>
+            </v-btn>
             {{ controlHashPower }}
-            <v-icon x-large color="red" @click="hashrateDown()">trending_down</v-icon>
+            <v-btn fab dark color="indigo" @click="hashrateUp()">
+              <v-icon dark>add</v-icon>
+            </v-btn>
           </span>
         </div>
       </div>
