@@ -1,8 +1,0 @@
-package com.kau.bitcointest;
-
-import org.springframework.web.bind.annotation.RestController;
-
-@RestController
-public class BitcoinTestnetConfigController {
-
-}
