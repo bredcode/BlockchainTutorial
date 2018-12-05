@@ -1,0 +1,18 @@
+package com.kau.bitcointest;
+
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+@Controller
+@EnableAutoConfiguration
+public class PageController {
+	@RequestMapping("page/manager")
+	public String pageIndex() {
+		return "manager/index";
+	}
+	@RequestMapping("page/bitcointest")
+	public String pageBitcointest() {
+		return "bitcoin_test/bitcoin_cli";
+	}
+}

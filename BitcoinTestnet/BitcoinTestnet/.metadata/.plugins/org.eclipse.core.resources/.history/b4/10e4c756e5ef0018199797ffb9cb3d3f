@@ -1,0 +1,69 @@
+$(document).ready(function(){
+    // $.ajax({
+    //     url:"test",
+    //     type:"get",
+    //     success:function(data){
+    //         alert("test:"+data);
+    //     }
+    // })
+    var $nodelist = $("#node_list");
+    $("#test_btn").click(function(){
+        $.ajax({
+            url:"/BitcoinTestnet/regtest/getnewaddress",
+            data:{
+                id:"jaewook"
+            },
+            success:function(data){
+                console.log(data);
+                $("#result").text(data);
+            }
+        })
+    });
+
+    $("#init_session").click(function(){
+        $.ajax({
+            url:"/BitcoinTestnet/regtest/initsession",
+            success:function(){
+                $nodelist.html('<li class="list-group-item">no items</li>');
+                alert("초기화 완료!");
+                
+            }
+        })
+    });
+    $("#create_session").click(function(){
+        if($("#client_num").val()!=null&&$("#client_num").val()!=""){
+            var num = $("#client_num").val();
+
+            $.ajax({
+                url:"/BitcoinTestnet/regtest/createsession",
+                data:{
+                    num:num
+                },
+                success:function(data){
+                    session_arr = JSON.parse(data);
+                    console.log(session_arr);
+                    $("#node_list").html('');
+                    for(var i = 0 ; i < session_arr.length; i++){
+                        var obj = JSON.parse(session_arr[i]);
+                        session_arr[i] = obj;
+                        var id = obj.id;
+                        var rpcport = parseInt(obj.rpcport);
+                        var html = "<div class=\"list-group-item list-group-item-action\">"
+                        	+"nodeid:"+id+"/rpcport="+rpcport
+                        	"<button type=\"button\" class=\"btn btn-default send_btc\">1BTC" +
+                        	+"<input class='idx' type='hidden' value='"+i+"'>" +
+                        	"</button>"
+                         "</div>";
+                        
+                        $nodelist.append(html);
+                    }
+                    $(".list-group-item").click(function(event){
+                        var idx = $(event.target).find(".idx").val();
+                        
+                    })
+                }
+            })
+        }
+    });
+});
+var session_arr = [];

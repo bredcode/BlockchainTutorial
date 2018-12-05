@@ -1,0 +1,17 @@
+package com.kau.bitcointest.database;
+
+public class BitcoinNodeDatabase {
+	
+	private static BitcoinNodeDatabase instance;
+	
+	public static void getInstance() {
+		if(instance==null) {
+			instance = new BitcoinNodeDatabase();
+		}
+		return instance;
+	}
+	
+	private BitcoinNodeDatabase() {
+		// TODO Auto-generated constructor stub
+	}
+}

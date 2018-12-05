@@ -1,0 +1,12 @@
+package com.kau.bitcointest;
+
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+public class PageController {
+	@RequestMapping("page/index")
+	public String pageIndex() {
+		return "index.html";
+	}
+}

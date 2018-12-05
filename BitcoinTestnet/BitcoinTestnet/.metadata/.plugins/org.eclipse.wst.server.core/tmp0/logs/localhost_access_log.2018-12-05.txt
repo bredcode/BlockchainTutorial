@@ -1,0 +1,16 @@
+127.0.0.1 - - [05/Dec/2018:12:07:35 +0900] "GET / HTTP/1.1" 404 994
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:01 +0900] "GET /BitcoinTestnet/ HTTP/1.1" 200 69
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:01 +0900] "GET /BitcoinTestnet/page/bitcointest HTTP/1.1" 200 7126
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:01 +0900] "GET /BitcoinTestnet/bitcoin_test/bitcoin_cmd_factory.js HTTP/1.1" 200 2178
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:01 +0900] "GET /BitcoinTestnet/bitcoin_test/bitcoin_cli.css HTTP/1.1" 200 1303
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:01 +0900] "GET /BitcoinTestnet/bitcoin_test/bitcoin_cli.js HTTP/1.1" 200 6705
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:02 +0900] "GET /favicon.ico HTTP/1.1" 404 1016
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:09 +0900] "GET /BitcoinTestnet/page/manager HTTP/1.1" 200 4034
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:09 +0900] "GET /BitcoinTestnet/manager/manager.js HTTP/1.1" 200 8139
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:09 +0900] "GET /BitcoinTestnet/regtest/getallnodeinfo HTTP/1.1" 200 2
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:11 +0900] "GET /BitcoinTestnet/regtest/initsession HTTP/1.1" 200 5
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:15 +0900] "GET /BitcoinTestnet/regtest/generateblock?block_num=101 HTTP/1.1" 200 7073
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:25 +0900] "GET /BitcoinTestnet/regtest/createsession?num=4 HTTP/1.1" 200 153
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:08:27 +0900] "GET /BitcoinTestnet/regtest/getnewaddress?id=0&rpcport=3000&name=0 HTTP/1.1" 200 5
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:49:44 +0900] "GET /BitcoinTestnet/regtest/initsession HTTP/1.1" 200 5
+0:0:0:0:0:0:0:1 - - [05/Dec/2018:12:49:46 +0900] "GET /BitcoinTestnet/regtest/generateblock?block_num=101 HTTP/1.1" 200 7073
