@@ -245,7 +245,7 @@ export default {
           this.nonce = 0
 
           this.mining()
-          if (parseInt(this.finalNonce) <= 3000) {
+          if (parseInt(this.finalNonce) <= 10000) {
             let info = {
               target: 3,
               blockNumber: this.miningData[blockChainLength].blockNumber + 1
