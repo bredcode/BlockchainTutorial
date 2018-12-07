@@ -80,7 +80,7 @@
         </v-flex>
       </v-layout>
     </div>
-    <div id="delimeter-wrapper">
+    <div id="delimeter-wrapper" @click="goTestnet()">
       <img id="delimeter-animation" src="https://cdn.ripple.com/wp-content/themes/ripple-beta/assets/img/home/ripplenet-section.gif">
       <div id="delimeter-box">
         <div id="delimeter-title"> {{ delTitle }} </div>
@@ -154,6 +154,9 @@ export default {
       }
       db.ref('miningData').push(info)
       this.dbDialog = false
+    },
+    goTestnet () {
+      window.open('http://kau-jwl.iptime.org:8080/BitcoinTestnet', '_blank');
     }
   }
 }
@@ -235,6 +238,7 @@ export default {
     height: 450px;
     background-color: #E6EAEE;
     float: left;
+    cursor: pointer;
   }
   #delimeter-animation{
     float: left;
